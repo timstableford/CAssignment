@@ -1,0 +1,14 @@
+1 D Donald Duck
+2 D Mickey Mouse
+3 E Jemima Julieta Mouse
+4 F Minnie Duck
+5 E Minnie Mouse
+6 E Minnie Mouse Junior
+7 D Deputy Doug
+8 D Deputy Duck
+9 F Bewick Swan
+10 F Black Swan
+11 E Albert Einstein
+12 D Albert Mouse
+13 E Donald Duck Senior
+14 F Egbert Einstein
