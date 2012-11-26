@@ -93,7 +93,13 @@ int loadCourses(char* file_location, Event* event){
 	return 1;
 }
 int loadTrack(char* file_location, Event* event){
+	FILE *file = fopen(file_location, "r");
+	if(file==NULL){
+		printf("File %s not found\n",file_location);
+		return -1;
+	}
 
+	return 1;
 }
 Node findNode(Event *event, int ident){
 	for(int i=0; i<event->num_nodes; i++){
@@ -106,15 +112,15 @@ Node findNode(Event *event, int ident){
 void printNode(Node *n){
 	char *t;
 	switch(n->type){
-		case CP:
-			t = "Checkpoint";
-			break;
-		case MC:
-			t = "Medical Checkpoint";
-			break;
-		case JN:
-			t = "Junction";
-			break;
+	case CP:
+		t = "Checkpoint";
+		break;
+	case MC:
+		t = "Medical Checkpoint";
+		break;
+	case JN:
+		t = "Junction";
+		break;
 	}
 	printf("Node identifier: %d Type: %s\n", n->identifier, t);
 }
