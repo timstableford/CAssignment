@@ -27,6 +27,13 @@ int loadFiles(char* folder_name){
 	strcat(name,"/");
 	strcat(name,E_COURSES);
 	loadCourses(name, &event);
+	free(name);
+	//load tracks
+	name = calloc(50,sizeof(char));
+	strcat(name,folder_name);
+	strcat(name,"/");
+	strcat(name,E_TRACKS);
+	loadTracks(name,&event);
 	printf("event name is %s\nPrinting nodes in course 1\n",event.name);
 	for(int i=0; i<event.courses[1].num_nodes; i++){
 		printNode(&event.courses[1].nodes[i]);
