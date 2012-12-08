@@ -7,13 +7,16 @@
 #include "data.h"
 #include "functions.h"
 #include <stdlib.h>
-Track *findTrack(int start_node, int end_node, Track *tracks, int num_tracks){
-	for(int i=0; i<num_tracks; i++){
-		if((tracks[i].start_node->identifier==start_node&&tracks[i].end_node->identifier==end_node)
-				||(tracks[i].start_node->identifier==end_node&&tracks[i].end_node->identifier==start_node)){
-			return &tracks[i];
+Track *findTrack(int start_node, int end_node, LinkedList *tracks){
+	ListNode *current = tracks->head;
+	do{
+		Track *currentData = current->data;
+		if((currentData->start_node->identifier==start_node&&currentData->end_node->identifier==end_node)
+				||(currentData->start_node->identifier==end_node&&currentData->end_node->identifier==start_node)){
+			return currentData;
 		}
-	}
+		current = current->next;
+	}while(current!=NULL);
 	return NULL;
 }
 Track *findTrackFromEvent(Event *event, int start_node, int end_node){

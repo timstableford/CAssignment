@@ -62,7 +62,6 @@ int loadEvent(char* file_location, Event *event){
 	return 1;
 }
 int loadNodes(char* file_location, Event* event){
-	int current_node = 0;
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -82,7 +81,6 @@ int loadNodes(char* file_location, Event* event){
 			n->type = MC;
 		}
 		listadd(n, &event->nodes);
-		current_node++;
 	}
 	return 1;
 }
@@ -123,20 +121,20 @@ int loadTrack(char* file_location, Event* event){
 		printf("File %s not found\n",file_location);
 		return -1;
 	}
-	int current_track = 0;
-	Track* tracks = malloc(0);
 	int track_num;
 	int start_node;
 	int end_node;
 	int max_time;
-	//first we'll scan them in to a 1d array
+	//first we'll scan them in to a linkedlist
+	LinkedList list;
+	list.length = 0;
 	while(fscanf(file, " %d %d %d %d",&track_num,&start_node,&end_node,&max_time)!=EOF){
-		tracks = realloc(tracks, sizeof(Track)*(current_track+1));
-		tracks[current_track].track_num = track_num;
-		tracks[current_track].start_node = findNode(event,start_node);
-		tracks[current_track].end_node = findNode(event,end_node);
-		tracks[current_track].max_time = max_time;
-		current_track++;
+		Track *t = malloc(sizeof(Track));
+		t->track_num = track_num;
+		t->start_node = findNode(event,start_node);
+		t->end_node = findNode(event,end_node);
+		t->max_time = max_time;
+		listadd(t, &list);
 	}
 	//now we build out 2d array to represent the node graph
 	event->nodeGraph = (Track***)calloc(event->nodes.length, sizeof(Track**));
@@ -145,7 +143,7 @@ int loadTrack(char* file_location, Event* event){
 	}
 	for(int i=0; i<event->nodes.length; i++){
 		for(int j=0; j<event->nodes.length; j++){
-			event->nodeGraph[i][j] = findTrack(i+1,j+1,tracks, current_track);
+			event->nodeGraph[i][j] = findTrack(i+1,j+1,&list);
 		}
 	}
 	return 1;
