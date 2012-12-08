@@ -32,7 +32,7 @@ typedef struct{
 typedef struct{
 	int competitor_num;
 	char name[50];
-	Course course;
+	Course *course;
 }Entrant;
 
 typedef struct{
@@ -41,7 +41,8 @@ typedef struct{
 	char time[50];
 	Node *nodes;
 	int num_nodes;
-	Entrant *entrant;
+	Entrant *entrants;
+	int num_entrants;
 	Course *courses;
 	int num_courses;
 	Track ***nodeGraph;

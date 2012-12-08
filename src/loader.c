@@ -142,3 +142,21 @@ int loadTrack(char* file_location, Event* event){
 	}
 	return 1;
 }
+int loadEntrants(char* file_location, Event *event){
+	FILE *file = fopen(file_location, "r");
+	if(file==NULL){
+		printf("File %s not found\n",file_location);
+		return -1;
+	}
+	event->num_entrants = 0;
+	Entrant *e = malloc(sizeof(Entrant));
+	char course;
+	while(fscanf(file, " %d %c %s",&e->competitor_num,&course,e->name)!=EOF){
+		event->num_entrants = event->num_entrants + 1;
+		e->course = findCourse(course, event);
+		event->entrants = realloc(event->entrants, sizeof(Entrant)*(event->num_entrants));
+		event->entrants[event->num_entrants-1] = *e;
+		e = malloc(sizeof(Entrant));
+	}
+	return 1;
+}

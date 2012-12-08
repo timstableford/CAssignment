@@ -12,4 +12,5 @@ Track *findTrack(int start_node, int end_node, Track *tracks, int num_tracks);
 void printTracks(Event *event);
 Track *findTrackFromEvent(Event *event, int start_node, int end_node);
 void printCourses(Event *event);
+Course *findCourse(char identifier, Event *event);
 #endif

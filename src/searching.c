@@ -27,5 +27,13 @@ Node *findNode(Event *event, int ident){
 	}
 	return NULL;
 }
+Course *findCourse(char identifier, Event *event){
+	for(int i=0; i<event->num_courses; i++){
+		if(event->courses[i].identifier==identifier){
+			return &event->courses[i];
+		}
+	}
+	return NULL;
+}
 
 
