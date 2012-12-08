@@ -14,22 +14,20 @@ typedef int NodeType;
 typedef struct{
 	int identifier;
 	NodeType type;
-	char visited;
 }Node;
 
 typedef struct{
-	char identifier;
-	int num_nodes;
-	Node *nodes;
-}Course;
+	int track_num;
+	Node* start_node;
+	Node* end_node;
+	int max_time;
+}Track;
 
 typedef struct{
-	int track_num;
-	int start_node;
-	int end_node;
-	int max_time;
-	Course course;
-}Track;
+	char identifier;
+	int num_tracks;
+	Track *tracks;
+}Course;
 
 typedef struct{
 	int competitor_num;
@@ -43,10 +41,11 @@ typedef struct{
 	char time[50];
 	Node *nodes;
 	int num_nodes;
-	Track *track;
 	Entrant *entrant;
 	Course *courses;
 	int num_courses;
+	Track ***nodeGraph;
+	int num_tracks;
 }Event;
 
 #endif
