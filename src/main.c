@@ -3,6 +3,7 @@
 #include "data.h"
 #include "functions.h"
 int main(int argc, char *argv[]){
+	Event event;
 	char *folder_name = NULL;
 	char *times_name = NULL;
 	for(int i=0; i<argc; i++){
@@ -29,5 +30,5 @@ int main(int argc, char *argv[]){
 		scanf(" %s",times_name);
 	}*/
 	printf("folder name is %s\n",folder_name);
-	loadFiles(folder_name);
+	loadFiles(folder_name, &event);
 }

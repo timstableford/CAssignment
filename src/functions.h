@@ -1,6 +1,7 @@
 #ifndef FUNCTIONS
 #define FUNCTIONS
-int loadFiles(char *folder_name);
+#include "data.h"
+int loadFiles(char *folder_name, Event *event);
 int loadEvent(char* file_name, Event *event);
 int loadNodes(char* file_name, Event* e);
 int loadTrack(char* file_name, Event* event);

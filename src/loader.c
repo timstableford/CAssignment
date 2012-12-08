@@ -3,30 +3,29 @@
 #include <string.h>
 #include "data.h"
 #include "functions.h"
-int loadFiles(char* folder_name){
+int loadFiles(char* folder_name, Event *event){
 	printf("%s\n", folder_name);
 	char *name;
-	Event event;
 	//load event
 	name = calloc(50,sizeof(char));
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_NAME);
-	loadEvent(name, &event);
+	loadEvent(name, event);
 	free(name);
 	//load nodes
 	name = calloc(50,sizeof(char));
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_NODES);
-	loadNodes(name, &event);
+	loadNodes(name, event);
 	free(name);
 	//load tracks
 	name = calloc(50,sizeof(char));
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_TRACKS);
-	loadTrack(name,&event);
+	loadTrack(name,event);
 	free(name);
 
 	//load courses
@@ -34,12 +33,12 @@ int loadFiles(char* folder_name){
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_COURSES);
-	loadCourses(name, &event);
+	loadCourses(name, event);
 	free(name);
 
 	//print node graph
-	printTracks(&event);
-	printCourses(&event);
+	printTracks(event);
+	printCourses(event);
 	//printf("event name is %s\nPrinting nodes in course 1\n",event.name);
 	/*for(int i=0; i<event.courses[1].num_nodes; i++){
 		printNode(&event.courses[1].nodes[i]);
@@ -143,67 +142,4 @@ int loadTrack(char* file_location, Event* event){
 		}
 	}
 	return 1;
-}
-Track *findTrack(int start_node, int end_node, Track *tracks, int num_tracks){
-	for(int i=0; i<num_tracks; i++){
-		if((tracks[i].start_node->identifier==start_node&&tracks[i].end_node->identifier==end_node)
-				||(tracks[i].start_node->identifier==end_node&&tracks[i].end_node->identifier==start_node)){
-			return &tracks[i];
-		}
-	}
-	return NULL;
-}
-Track *findTrackFromEvent(Event *event, int start_node, int end_node){
-	return event->nodeGraph[start_node-1][end_node-1];
-}
-Node *findNode(Event *event, int ident){
-	for(int i=0; i<event->num_nodes; i++){
-		if(event->nodes[i].identifier==ident){
-			return &event->nodes[i];
-		}
-	}
-	return NULL;
-}
-void printNode(Node *n){
-	char *t;
-	switch(n->type){
-	case CP:
-		t = "Checkpoint";
-		break;
-	case MC:
-		t = "Medical Checkpoint";
-		break;
-	case JN:
-		t = "Junction";
-		break;
-	}
-	printf("Node identifier: %d Type: %s\n", n->identifier, t);
-}
-void printTracks(Event *event){
-	printf("%6s","");
-	for(int j=0; j<event->num_nodes; j++){
-		printf("%6d",j+1);
-	}
-	printf("\n");
-	for(int i=0; i<event->num_nodes; i++){
-		printf("%6d",i+1);
-		for(int h=0; h<event->num_nodes; h++){
-			int max = 0;
-			if(event->nodeGraph[i][h]!=NULL){
-				max = event->nodeGraph[i][h]->max_time;
-			}
-			printf("%5d%1s",max,"m");
-		}
-		printf("\n");
-	}
-}
-void printCourses(Event *event){
-	printf("Printing %d courses\n",event->num_courses);
-	for(int course=0; course<event->num_courses; course++){
-		int time = 0;
-		for(int track=0; track<event->courses[course].num_tracks; track++){
-			time = time + event->courses[course].tracks[track]->max_time;
-		}
-		printf("Course %c has %d tracks and takes %d minutes\n", event->courses[course].identifier, event->courses[course].num_tracks, time);
-	}
 }
