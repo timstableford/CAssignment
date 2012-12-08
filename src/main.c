@@ -30,5 +30,10 @@ int main(int argc, char *argv[]){
 		scanf(" %s",times_name);
 	}*/
 	printf("folder name is %s\n",folder_name);
-	loadFiles(folder_name, &event);
+	if(loadFiles(folder_name, &event)<1){
+		printf("Load failed, Terminating\n");
+		return -1;
+	}
+	printTracks(&event);
+	printCourses(&event);
 }

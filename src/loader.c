@@ -5,44 +5,43 @@
 #include "functions.h"
 int loadFiles(char* folder_name, Event *event){
 	printf("%s\n", folder_name);
+	int status;
 	char *name;
 	//load event
 	name = calloc(50,sizeof(char));
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_NAME);
-	loadEvent(name, event);
+	status = loadEvent(name, event);
 	free(name);
+	if(status<1){ return status; }
 	//load nodes
 	name = calloc(50,sizeof(char));
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_NODES);
-	loadNodes(name, event);
+	status = loadNodes(name, event);
 	free(name);
+	if(status<1){ return status; }
 	//load tracks
 	name = calloc(50,sizeof(char));
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_TRACKS);
-	loadTrack(name,event);
+	status = loadTrack(name,event);
 	free(name);
+	if(status<1){ return status; }
 
 	//load courses
 	name = calloc(50,sizeof(char));
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_COURSES);
-	loadCourses(name, event);
+	status = loadCourses(name, event);
 	free(name);
+	if(status<1){ return status; }
 
-	//print node graph
-	printTracks(event);
-	printCourses(event);
-	//printf("event name is %s\nPrinting nodes in course 1\n",event.name);
-	/*for(int i=0; i<event.courses[1].num_nodes; i++){
-		printNode(&event.courses[1].nodes[i]);
-	}*/
+
 	return 1;
 }
 int loadEvent(char* file_location, Event *event){
