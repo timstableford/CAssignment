@@ -28,7 +28,7 @@ int loadFiles(char* folder_name){
 	strcat(name,E_TRACKS);
 	loadTrack(name,&event);
 	free(name);
-	/*
+
 	//load courses
 	name = calloc(50,sizeof(char));
 	strcat(name,folder_name);
@@ -36,9 +36,10 @@ int loadFiles(char* folder_name){
 	strcat(name,E_COURSES);
 	loadCourses(name, &event);
 	free(name);
-	*/
+
 	//print node graph
 	printTracks(&event);
+	printCourses(&event);
 	//printf("event name is %s\nPrinting nodes in course 1\n",event.name);
 	/*for(int i=0; i<event.courses[1].num_nodes; i++){
 		printNode(&event.courses[1].nodes[i]);
@@ -78,7 +79,7 @@ int loadNodes(char* file_location, Event* event){
 	}
 	event->num_nodes = current_node;
 	return 1;
-}/*
+}
 int loadCourses(char* file_location, Event* event){
 	//courses contain tracks
 	int current_course = 0;
@@ -93,18 +94,22 @@ int loadCourses(char* file_location, Event* event){
 	while(fscanf(file, " %c %d",&ident,&num_nodes)!=EOF){
 		event->courses = realloc(event->courses, sizeof(Course)*(current_course+1));
 		event->courses[current_course].identifier = ident;
-		event->courses[current_course].num_nodes = num_nodes;
-		event->courses[current_course].nodes = malloc(sizeof(Node)*num_nodes);
+		int last_node = -1;
+		event->courses[current_course].num_tracks = num_nodes-1;
+		event->courses[current_course].tracks = calloc(num_nodes-1,sizeof(Track*));
 		for(int i=0; i<num_nodes; i++){
 			int node_ident;
 			fscanf(file, " %d",&node_ident);
-			event->courses[current_course].nodes[i] = findNode(event, node_ident);
+			if(last_node>=0){
+				event->courses[current_course].tracks[i-1] = findTrackFromEvent(event,last_node,node_ident);
+			}
+			last_node = node_ident;
 		}
 		current_course++;
 	}
 	event->num_courses = current_course;
 	return 1;
-}*/
+}
 int loadTrack(char* file_location, Event* event){
 	//tracks are the time between 2 nodes
 	FILE *file = fopen(file_location, "r");
@@ -127,7 +132,6 @@ int loadTrack(char* file_location, Event* event){
 		tracks[current_track].max_time = max_time;
 		current_track++;
 	}
-	event->num_tracks = current_track;
 	//now we build out 2d array to represent the node graph
 	event->nodeGraph = (Track***)calloc(event->num_nodes, sizeof(Track**));
 	for(int h=0; h<event->num_nodes; h++){
@@ -148,6 +152,9 @@ Track *findTrack(int start_node, int end_node, Track *tracks, int num_tracks){
 		}
 	}
 	return NULL;
+}
+Track *findTrackFromEvent(Event *event, int start_node, int end_node){
+	return event->nodeGraph[start_node-1][end_node-1];
 }
 Node *findNode(Event *event, int ident){
 	for(int i=0; i<event->num_nodes; i++){
@@ -189,5 +196,14 @@ void printTracks(Event *event){
 		}
 		printf("\n");
 	}
-
+}
+void printCourses(Event *event){
+	printf("Printing %d courses\n",event->num_courses);
+	for(int course=0; course<event->num_courses; course++){
+		int time = 0;
+		for(int track=0; track<event->courses[course].num_tracks; track++){
+			time = time + event->courses[course].tracks[track]->max_time;
+		}
+		printf("Course %c has %d tracks and takes %d minutes\n", event->courses[course].identifier, event->courses[course].num_tracks, time);
+	}
 }

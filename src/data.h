@@ -26,7 +26,7 @@ typedef struct{
 typedef struct{
 	char identifier;
 	int num_tracks;
-	Track *tracks;
+	Track **tracks;
 }Course;
 
 typedef struct{
@@ -45,7 +45,6 @@ typedef struct{
 	Course *courses;
 	int num_courses;
 	Track ***nodeGraph;
-	int num_tracks;
 }Event;
 
 #endif
