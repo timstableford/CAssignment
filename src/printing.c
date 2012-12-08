@@ -42,13 +42,16 @@ void printTracks(Event *event){
 	}
 }
 void printCourses(Event *event){
-	printf("Printing %d courses\n",event->num_courses);
-	for(int course=0; course<event->num_courses; course++){
+	printf("Printing %d courses\n",event->courses.length);
+	ListNode *current = event->courses.head;
+	do{
+		Course *currentData = current->data;
 		int time = 0;
-		for(int track=0; track<event->courses[course].num_tracks; track++){
-			time = time + event->courses[course].tracks[track]->max_time;
+		for(int track=0; track<currentData->num_tracks; track++){
+			time = time + currentData->tracks[track]->max_time;
 		}
-		printf("Course %c has %d tracks and takes %d minutes\n", event->courses[course].identifier, event->courses[course].num_tracks, time);
-	}
+		printf("Course %c has %d tracks and takes %d minutes\n", currentData->identifier, currentData->num_tracks, time);
+		current = current->next;
+	}while(current!=NULL);
 }
 

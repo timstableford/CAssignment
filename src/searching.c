@@ -34,11 +34,14 @@ Node *findNode(Event *event, int ident){
 	return NULL;
 }
 Course *findCourse(char identifier, Event *event){
-	for(int i=0; i<event->num_courses; i++){
-		if(event->courses[i].identifier==identifier){
-			return &event->courses[i];
+	ListNode *current = event->courses.head;
+	do{
+		Course *currentData = current->data;
+		if(currentData->identifier==identifier){
+			return currentData;
 		}
-	}
+		current = current->next;
+	}while(current!=NULL);
 	return NULL;
 }
 

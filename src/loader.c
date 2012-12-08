@@ -86,32 +86,30 @@ int loadNodes(char* file_location, Event* event){
 }
 int loadCourses(char* file_location, Event* event){
 	//courses contain tracks
-	int current_course = 0;
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
 		return -1;
 	}
-	event->courses = malloc(0);
+	event->courses.length = 0;
 	char ident;
 	int num_nodes;
 	while(fscanf(file, " %c %d",&ident,&num_nodes)!=EOF){
-		event->courses = realloc(event->courses, sizeof(Course)*(current_course+1));
-		event->courses[current_course].identifier = ident;
+		Course *c = malloc(sizeof(Course));
+		c->identifier = ident;
 		int last_node = -1;
-		event->courses[current_course].num_tracks = num_nodes-1;
-		event->courses[current_course].tracks = calloc(num_nodes-1,sizeof(Track*));
+		c->num_tracks = num_nodes-1;
+		c->tracks = calloc(num_nodes-1,sizeof(Track*));
 		for(int i=0; i<num_nodes; i++){
 			int node_ident;
 			fscanf(file, " %d",&node_ident);
 			if(last_node>=0){
-				event->courses[current_course].tracks[i-1] = findTrackFromEvent(event,last_node,node_ident);
+				c->tracks[i-1] = findTrackFromEvent(event,last_node,node_ident);
 			}
 			last_node = node_ident;
 		}
-		current_course++;
+		listadd(c, &event->courses);
 	}
-	event->num_courses = current_course;
 	return 1;
 }
 int loadTrack(char* file_location, Event* event){

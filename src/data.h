@@ -57,7 +57,7 @@ typedef struct{
 	//int num_nodes;
 	Entrant *entrants;
 	int num_entrants;
-	Course *courses;
+	LinkedList courses;
 	int num_courses;
 	Track ***nodeGraph;
 }Event;
