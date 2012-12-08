@@ -25,13 +25,13 @@ void printNode(Node *n){
 }
 void printTracks(Event *event){
 	printf("%6s","");
-	for(int j=0; j<event->num_nodes; j++){
+	for(int j=0; j<event->nodes.length; j++){
 		printf("%6d",j+1);
 	}
 	printf("\n");
-	for(int i=0; i<event->num_nodes; i++){
+	for(int i=0; i<event->nodes.length; i++){
 		printf("%6d",i+1);
-		for(int h=0; h<event->num_nodes; h++){
+		for(int h=0; h<event->nodes.length; h++){
 			int max = 0;
 			if(event->nodeGraph[i][h]!=NULL){
 				max = event->nodeGraph[i][h]->max_time;

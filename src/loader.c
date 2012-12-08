@@ -41,6 +41,14 @@ int loadFiles(char* folder_name, Event *event){
 	free(name);
 	if(status<1){ return status; }
 
+	//load entrants
+	name = calloc(50,sizeof(char));
+	strcat(name,folder_name);
+	strcat(name,"/");
+	strcat(name,E_ENTRANTS);
+	status = loadEntrants(name, event);
+	free(name);
+	if(status<1){ return status; }
 
 	return 1;
 }
@@ -55,27 +63,27 @@ int loadEvent(char* file_location, Event *event){
 }
 int loadNodes(char* file_location, Event* event){
 	int current_node = 0;
-	event->nodes = malloc(0);
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
 		return -1;
 	}
 	int ident;
+	event->nodes.length = 0;
 	char type[2];
 	while(fscanf(file, " %d %s",&ident,type)!=EOF){
-		event->nodes = realloc(event->nodes, sizeof(Node)*(current_node+1));
-		event->nodes[current_node].identifier = ident;
+		Node *n = malloc(sizeof(Node));
+		n->identifier = ident;
 		if(strcmp("JN",type)==0){
-			event->nodes[current_node].type = JN;
+			n->type = JN;
 		}else if(strcmp("CP",type)==0){
-			event->nodes[current_node].type = CP;
+			n->type = CP;
 		}else if(strcmp("MC",type)==0){
-			event->nodes[current_node].type = MC;
+			n->type = MC;
 		}
+		listadd(n, &event->nodes);
 		current_node++;
 	}
-	event->num_nodes = current_node;
 	return 1;
 }
 int loadCourses(char* file_location, Event* event){
@@ -131,12 +139,12 @@ int loadTrack(char* file_location, Event* event){
 		current_track++;
 	}
 	//now we build out 2d array to represent the node graph
-	event->nodeGraph = (Track***)calloc(event->num_nodes, sizeof(Track**));
-	for(int h=0; h<event->num_nodes; h++){
-		event->nodeGraph[h] = (Track**)calloc(event->num_nodes,sizeof(Track*));
+	event->nodeGraph = (Track***)calloc(event->nodes.length, sizeof(Track**));
+	for(int h=0; h<event->nodes.length; h++){
+		event->nodeGraph[h] = (Track**)calloc(event->nodes.length,sizeof(Track*));
 	}
-	for(int i=0; i<event->num_nodes; i++){
-		for(int j=0; j<event->num_nodes; j++){
+	for(int i=0; i<event->nodes.length; i++){
+		for(int j=0; j<event->nodes.length; j++){
 			event->nodeGraph[i][j] = findTrack(i+1,j+1,tracks, current_track);
 		}
 	}
@@ -149,14 +157,16 @@ int loadEntrants(char* file_location, Event *event){
 		return -1;
 	}
 	event->num_entrants = 0;
-	Entrant *e = malloc(sizeof(Entrant));
+	event->entrants = malloc(sizeof(Entrant));
 	char course;
-	while(fscanf(file, " %d %c %s",&e->competitor_num,&course,e->name)!=EOF){
+	int competitor_num;
+	char *name = malloc(sizeof(char)*50);
+	while(fscanf(file, " %d %c %[^\n]",&competitor_num,&course,name)!=EOF){
 		event->num_entrants = event->num_entrants + 1;
-		e->course = findCourse(course, event);
 		event->entrants = realloc(event->entrants, sizeof(Entrant)*(event->num_entrants));
-		event->entrants[event->num_entrants-1] = *e;
-		e = malloc(sizeof(Entrant));
+		event->entrants[event->num_entrants-1].course = findCourse(course, event);
+		event->entrants[event->num_entrants-1].competitor_num = competitor_num;
+		event->entrants[event->num_entrants-1].name = name;
 	}
 	return 1;
 }

@@ -20,11 +20,14 @@ Track *findTrackFromEvent(Event *event, int start_node, int end_node){
 	return event->nodeGraph[start_node-1][end_node-1];
 }
 Node *findNode(Event *event, int ident){
-	for(int i=0; i<event->num_nodes; i++){
-		if(event->nodes[i].identifier==ident){
-			return &event->nodes[i];
+	ListNode *current = event->nodes.head;
+	do{
+		Node *currentData = current->data;
+		if(currentData->identifier==ident){
+			return currentData;
 		}
-	}
+		current = current->next;
+	}while(current!=NULL);
 	return NULL;
 }
 Course *findCourse(char identifier, Event *event){

@@ -11,6 +11,20 @@
 #define MC 1
 #define JN 2
 typedef int NodeType;
+
+typedef struct ListNode{
+	void *data;
+	struct ListNode *next;
+	struct ListNode *previous;
+}ListNode;
+
+typedef struct{
+	ListNode *head;
+	ListNode *tail;
+	int length;
+	int iterator;
+}LinkedList;
+
 typedef struct{
 	int identifier;
 	NodeType type;
@@ -31,7 +45,7 @@ typedef struct{
 
 typedef struct{
 	int competitor_num;
-	char name[50];
+	char *name;
 	Course *course;
 }Entrant;
 
@@ -39,8 +53,8 @@ typedef struct{
 	char name[50];
 	char date[50];
 	char time[50];
-	Node *nodes;
-	int num_nodes;
+	LinkedList nodes;
+	//int num_nodes;
 	Entrant *entrants;
 	int num_entrants;
 	Course *courses;
