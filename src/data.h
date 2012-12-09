@@ -47,6 +47,7 @@ typedef struct{
 	int competitor_num;
 	char name[50];
 	Course *course;
+	LinkedList visited;
 }Entrant;
 
 typedef struct{

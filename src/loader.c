@@ -158,6 +158,7 @@ int loadEntrants(char* file_location, Event *event){
 	while(fscanf(file, " %d %c %[^\n]",&e->competitor_num,&course,e->name)!=EOF){
 		e->course = findCourse(course, event);
 		listadd(e, &event->entrants);
+		e->visited.length = 0;
 		e = malloc(sizeof(Entrant));
 	}
 	if(e->name==NULL){
