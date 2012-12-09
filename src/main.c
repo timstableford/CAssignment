@@ -40,5 +40,29 @@ int main(int argc, char *argv[]){
 	}
 	loadTimes(times_name, &event);
 	printEntrants(&event);
+	printOptions();
+	char in = 'Q';
+	do{
+		printOptions();
+		scanf(" %c",&in);
+		switch(in){
+		case '1':
+			printf("Enter entrant name: ");
+			char name[50];
+			scanf(" %[^\n]", &name);
+			Entrant *e = findEntrantByName(&name,&event);
+			if(e==NULL){
+				printf("Entrant not found\n");
+				break;
+			}
+			printStatus(e);
+			break;
+		}
+	}while(in!='Q');
+}
+void printOptions(){
+	printf("Enter an option:\n");
+	printf("1 - Query location of entrant\n");
 
+	printf("Q - Quit\n");
 }

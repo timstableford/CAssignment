@@ -7,6 +7,7 @@
 #include "data.h"
 #include "functions.h"
 #include <stdlib.h>
+#include <string.h>
 Track *findTrack(int start_node, int end_node, LinkedList *tracks){
 	ListNode *current = tracks->head;
 	do{
@@ -49,6 +50,17 @@ Entrant *findEntrant(int competitor_num, Event *event){
 	do{
 		Entrant *currentData = current->data;
 		if(currentData->competitor_num==competitor_num){
+			return currentData;
+		}
+		current = current->next;
+	}while(current!=NULL);
+	return NULL;
+}
+Entrant *findEntrantByName(char *name, Event *event){
+	ListNode *current = event->entrants.head;
+	do{
+		Entrant *currentData = current->data;
+		if(strcmp(name, currentData->name)==0){
 			return currentData;
 		}
 		current = current->next;

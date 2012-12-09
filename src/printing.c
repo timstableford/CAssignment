@@ -74,4 +74,10 @@ void printEntrants(Event *event){
 		current = current->next;
 	}while(current!=NULL);
 }
+void printStatus(Entrant *entrant){
+	int h = entrant->time/60;
+	int m = entrant->time%60;
+	Node *last = entrant->visited.tail->data;
+	printf("Entrant %s last checked in at %d:%d at checkpoint %d\n", entrant->name, h, m, last->identifier);
+}
 

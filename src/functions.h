@@ -19,4 +19,7 @@ void listremove(LinkedList *list, ListNode *node);
 void printEntrants(Event *event);
 Entrant *findEntrant(int competitor_num, Event *event);
 int loadTimes(char* file_location, Event *event);
+void printOptions();
+Entrant *findEntrantByName(char *name, Event *event);
+void printStatus(Entrant *entrant);
 #endif
