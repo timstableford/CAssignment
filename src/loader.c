@@ -179,12 +179,8 @@ int loadTimes(char* file_location, Event *event){
 	int time_A;
 	int time_B;
 	while(fscanf(file, " %c %d %d %d:%d",&type,&checkpoint,&competitor,&time_A,&time_B)!=EOF){
-		int time = time_A*60 + time_B;
 		if(type=='T'){
-			Node *at = findNode(event, checkpoint);
-			Entrant *e = findEntrant(competitor, event);
-			e->time = time;
-			listadd(at, &e->visited);
+			checkin(event, checkpoint, findEntrant(competitor, event), time_A, time_B);
 		}
 	}
 	return 1;

@@ -68,4 +68,3 @@ Entrant *findEntrantByName(char *name, Event *event){
 	return NULL;
 }
 
-

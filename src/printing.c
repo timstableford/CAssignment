@@ -78,6 +78,47 @@ void printStatus(Entrant *entrant){
 	int h = entrant->time/60;
 	int m = entrant->time%60;
 	Node *last = entrant->visited.tail->data;
-	printf("Entrant %s last checked in at %d:%d at checkpoint %d\n", entrant->name, h, m, last->identifier);
+	printf("Entrant %s last checked in at %d:%d at checkpoint %d", entrant->name, h, m, last->identifier);
+	if(entrant->visited.length>1){
+		printf(" and has started\n");
+	}else{
+		printf(" and has not started\n");
+	}
+}
+void printNotStarted(Event *event){
+	ListNode *current = event->entrants.head;
+	printf("Entrants who have not started are: \n");
+	do{
+		Entrant *currentData = current->data;
+		if(currentData->visited.length<=1){
+			printf("%s\n", currentData->name);
+		}
+		current = current->next;
+	}while(current!=NULL);
+}
+void printStarted(Event *event){
+	ListNode *current = event->entrants.head;
+	printf("Entrants who have started are: \n");
+	do{
+		Entrant *currentData = current->data;
+		if(currentData->visited.length>1){
+			printf("%s\n", currentData->name);
+		}
+		current = current->next;
+	}while(current!=NULL);
+}
+void printFinished(Event *event){
+	int num_fin = 0;
+	ListNode *current = event->entrants.head;
+	printf("Entrants who have finished are: \n");
+	do{
+		Entrant *currentData = current->data;
+		if((currentData->visited.length)>=(currentData->course->num_tracks+1)){
+			printf("%s\n", currentData->name);
+			num_fin++;
+		}
+		current = current->next;
+	}while(current!=NULL);
+	printf("%d have finished\n",num_fin);
 }
 

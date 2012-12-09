@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "data.h"
 #include "functions.h"
 int main(int argc, char *argv[]){
@@ -42,20 +43,47 @@ int main(int argc, char *argv[]){
 	printEntrants(&event);
 	printOptions();
 	char in = 'Q';
+	char name[50];
+	Entrant *e;
 	do{
 		printOptions();
 		scanf(" %c",&in);
 		switch(in){
 		case '1':
 			printf("Enter entrant name: ");
-			char name[50];
-			scanf(" %[^\n]", &name);
-			Entrant *e = findEntrantByName(&name,&event);
+			scanf(" %[^\n]", name);
+			e = findEntrantByName(name,&event);
 			if(e==NULL){
 				printf("Entrant not found\n");
 				break;
 			}
 			printStatus(e);
+			break;
+		case '2':
+			printNotStarted(&event);
+			break;
+		case '3':
+			printStarted(&event);
+			break;
+		case '4':
+			printFinished(&event);
+			break;
+		case '5':
+			printf("Enter competitor name: ");
+			scanf(" %[^\n]",name);
+			int h;
+			int m;
+			printf("Enter time (HH:MM): ");
+			scanf(" %d:%d", &h, &m);
+			printf("Enter checkpoint number: ");
+			int checkpoint;
+			scanf(" %d", &checkpoint);
+			e = findEntrantByName(name, &event);
+			if(e==NULL){
+				printf("Entrant not found\n");
+				break;
+			}
+			checkin(&event, checkpoint, findEntrantByName(name, &event), h, m);
 			break;
 		}
 	}while(in!='Q');
@@ -63,6 +91,9 @@ int main(int argc, char *argv[]){
 void printOptions(){
 	printf("Enter an option:\n");
 	printf("1 - Query location of entrant\n");
-
+	printf("2 - Print competitors who have not started\n");
+	printf("3 - Print competitors who are on courses\n");
+	printf("4 - Print finished\n");
+	printf("5 - Enter time checkpoint\n");
 	printf("Q - Quit\n");
 }
