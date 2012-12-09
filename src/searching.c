@@ -44,5 +44,16 @@ Course *findCourse(char identifier, Event *event){
 	}while(current!=NULL);
 	return NULL;
 }
+Entrant *findEntrant(int competitor_num, Event *event){
+	ListNode *current = event->entrants.head;
+	do{
+		Entrant *currentData = current->data;
+		if(currentData->competitor_num==competitor_num){
+			return currentData;
+		}
+		current = current->next;
+	}while(current!=NULL);
+	return NULL;
+}
 
 

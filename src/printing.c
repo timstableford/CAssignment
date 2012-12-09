@@ -59,6 +59,18 @@ void printEntrants(Event *event){
 	do{
 		Entrant *currentData = current->data;
 		printf("Competitor number %d, %s on course %c\n", currentData->competitor_num, currentData->name, currentData->course->identifier);
+		if(currentData->visited.length>0){
+			int h = currentData->time/60;
+			int m = currentData->time%60;
+			printf("And they last hit a checkpoint at %d:%d and have visited these checkpoints: ",h,m);
+			ListNode *c = currentData->visited.head;
+			do{
+				Node *n = c->data;
+				printf("%d, ", n->identifier);
+				c = c->next;
+			}while(c!=NULL);
+			printf("\n\n");
+		}
 		current = current->next;
 	}while(current!=NULL);
 }

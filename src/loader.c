@@ -159,10 +159,33 @@ int loadEntrants(char* file_location, Event *event){
 		e->course = findCourse(course, event);
 		listadd(e, &event->entrants);
 		e->visited.length = 0;
+		e->time = 0;
 		e = malloc(sizeof(Entrant));
 	}
 	if(e->name==NULL){
 		free(e);
+	}
+	return 1;
+}
+int loadTimes(char* file_location, Event *event){
+	FILE *file = fopen(file_location, "r");
+	if(file==NULL){
+		printf("File %s not found\n",file_location);
+		return -1;
+	}
+	char type;
+	int checkpoint;
+	int competitor;
+	int time_A;
+	int time_B;
+	while(fscanf(file, " %c %d %d %d:%d",&type,&checkpoint,&competitor,&time_A,&time_B)!=EOF){
+		int time = time_A*60 + time_B;
+		if(type=='T'){
+			Node *at = findNode(event, checkpoint);
+			Entrant *e = findEntrant(competitor, event);
+			e->time = time;
+			listadd(at, &e->visited);
+		}
 	}
 	return 1;
 }

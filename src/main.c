@@ -23,12 +23,7 @@ int main(int argc, char *argv[]){
 		printf("Enter folder name for event: ");
 		folder_name = calloc(80,sizeof(char));
 		scanf(" %s",folder_name);
-	}/*
-	if(times_name==NULL){
-		printf("Enter file name for event times: ");
-		times_name = calloc(80,sizeof(char));
-		scanf(" %s",times_name);
-	}*/
+	}
 	printf("folder name is %s\n",folder_name);
 	if(loadFiles(folder_name, &event)<1){
 		printf("Load failed, Terminating\n");
@@ -36,5 +31,14 @@ int main(int argc, char *argv[]){
 	}
 	printTracks(&event);
 	printCourses(&event);
+
+
+	if(times_name==NULL){
+		printf("Enter file name for event times: ");
+		times_name = calloc(80,sizeof(char));
+		scanf(" %s",times_name);
+	}
+	loadTimes(times_name, &event);
 	printEntrants(&event);
+
 }
