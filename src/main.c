@@ -36,4 +36,5 @@ int main(int argc, char *argv[]){
 	}
 	printTracks(&event);
 	printCourses(&event);
+	printEntrants(&event);
 }

@@ -45,7 +45,7 @@ typedef struct{
 
 typedef struct{
 	int competitor_num;
-	char *name;
+	char name[50];
 	Course *course;
 }Entrant;
 
@@ -54,11 +54,8 @@ typedef struct{
 	char date[50];
 	char time[50];
 	LinkedList nodes;
-	//int num_nodes;
-	Entrant *entrants;
-	int num_entrants;
+	LinkedList entrants;
 	LinkedList courses;
-	int num_courses;
 	Track ***nodeGraph;
 }Event;
 

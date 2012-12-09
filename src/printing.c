@@ -54,4 +54,12 @@ void printCourses(Event *event){
 		current = current->next;
 	}while(current!=NULL);
 }
+void printEntrants(Event *event){
+	ListNode *current = event->entrants.head;
+	do{
+		Entrant *currentData = current->data;
+		printf("Competitor number %d, %s on course %c\n", currentData->competitor_num, currentData->name, currentData->course->identifier);
+		current = current->next;
+	}while(current!=NULL);
+}
 

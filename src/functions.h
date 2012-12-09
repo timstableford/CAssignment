@@ -16,4 +16,5 @@ Course *findCourse(char identifier, Event *event);
 int loadEntrants(char* file_location, Event *event);
 void listadd(void *data, LinkedList *list);
 void listremove(LinkedList *list, ListNode *node);
+void printEntrants(Event *event);
 #endif

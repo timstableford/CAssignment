@@ -152,17 +152,16 @@ int loadEntrants(char* file_location, Event *event){
 		printf("File %s not found\n",file_location);
 		return -1;
 	}
-	event->num_entrants = 0;
-	event->entrants = malloc(sizeof(Entrant));
+	event->entrants.length = 0;
 	char course;
-	int competitor_num;
-	char *name = malloc(sizeof(char)*50);
-	while(fscanf(file, " %d %c %[^\n]",&competitor_num,&course,name)!=EOF){
-		event->num_entrants = event->num_entrants + 1;
-		event->entrants = realloc(event->entrants, sizeof(Entrant)*(event->num_entrants));
-		event->entrants[event->num_entrants-1].course = findCourse(course, event);
-		event->entrants[event->num_entrants-1].competitor_num = competitor_num;
-		event->entrants[event->num_entrants-1].name = name;
+	Entrant *e = malloc(sizeof(Entrant));
+	while(fscanf(file, " %d %c %[^\n]",&e->competitor_num,&course,e->name)!=EOF){
+		e->course = findCourse(course, event);
+		listadd(e, &event->entrants);
+		e = malloc(sizeof(Entrant));
+	}
+	if(e->name==NULL){
+		free(e);
 	}
 	return 1;
 }
