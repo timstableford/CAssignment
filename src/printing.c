@@ -47,7 +47,7 @@ void print_entrants(Event *event){
 void print_status(Entrant *entrant){
 	int h = entrant->time/60;
 	int m = entrant->time%60;
-	printf("Entrant %s ",entrant->name);
+	printf("%s is on course %c and ",entrant->name, entrant->course->identifier);
 	if(entrant->visited.length==0){
 		printf(" has not checked in\n");
 	}else{
