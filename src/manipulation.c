@@ -10,7 +10,7 @@
 #include <stdio.h>
 void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	int time = h*60 + m;
-	Node *at = findNode(event, node_ident);
+	Node *at = find_node(event, node_ident);
 	entrant->time = time;
 	listadd(at, &entrant->visited);
 }

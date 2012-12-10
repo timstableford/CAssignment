@@ -8,7 +8,7 @@
 #include "functions.h"
 #include <stdlib.h>
 #include <string.h>
-Track *findTrack(int start_node, int end_node, LinkedList *tracks){
+Track *find_track(int start_node, int end_node, LinkedList *tracks){
 	ListNode *current = tracks->head;
 	do{
 		Track *currentData = current->data;
@@ -20,10 +20,10 @@ Track *findTrack(int start_node, int end_node, LinkedList *tracks){
 	}while(current!=NULL);
 	return NULL;
 }
-Track *findTrackFromEvent(Event *event, int start_node, int end_node){
-	return event->nodeGraph[start_node-1][end_node-1];
+Track *find_track_from_event(Event *event, int start_node, int end_node){
+	return event->node_graph[start_node-1][end_node-1];
 }
-Node *findNode(Event *event, int ident){
+Node *find_node(Event *event, int ident){
 	ListNode *current = event->nodes.head;
 	do{
 		Node *currentData = current->data;
@@ -34,7 +34,7 @@ Node *findNode(Event *event, int ident){
 	}while(current!=NULL);
 	return NULL;
 }
-Course *findCourse(char identifier, Event *event){
+Course *find_course(char identifier, Event *event){
 	ListNode *current = event->courses.head;
 	do{
 		Course *currentData = current->data;
@@ -45,7 +45,7 @@ Course *findCourse(char identifier, Event *event){
 	}while(current!=NULL);
 	return NULL;
 }
-Entrant *findEntrant(int competitor_num, Event *event){
+Entrant *find_entrant(int competitor_num, Event *event){
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;
@@ -56,7 +56,7 @@ Entrant *findEntrant(int competitor_num, Event *event){
 	}while(current!=NULL);
 	return NULL;
 }
-Entrant *findEntrantByName(char *name, Event *event){
+Entrant *find_entrant_by_name(char *name, Event *event){
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;

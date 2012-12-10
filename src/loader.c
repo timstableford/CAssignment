@@ -3,7 +3,7 @@
 #include <string.h>
 #include "data.h"
 #include "functions.h"
-int loadFiles(char* folder_name, Event *event){
+int load_files(char* folder_name, Event *event){
 	printf("%s\n", folder_name);
 	int status;
 	char *name;
@@ -12,7 +12,7 @@ int loadFiles(char* folder_name, Event *event){
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_NAME);
-	status = loadEvent(name, event);
+	status = load_event(name, event);
 	free(name);
 	if(status<1){ return status; }
 	//load nodes
@@ -20,7 +20,7 @@ int loadFiles(char* folder_name, Event *event){
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_NODES);
-	status = loadNodes(name, event);
+	status = load_nodes(name, event);
 	free(name);
 	if(status<1){ return status; }
 	//load tracks
@@ -28,7 +28,7 @@ int loadFiles(char* folder_name, Event *event){
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_TRACKS);
-	status = loadTrack(name,event);
+	status = load_track(name,event);
 	free(name);
 	if(status<1){ return status; }
 
@@ -37,7 +37,7 @@ int loadFiles(char* folder_name, Event *event){
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_COURSES);
-	status = loadCourses(name, event);
+	status = load_courses(name, event);
 	free(name);
 	if(status<1){ return status; }
 
@@ -46,13 +46,13 @@ int loadFiles(char* folder_name, Event *event){
 	strcat(name,folder_name);
 	strcat(name,"/");
 	strcat(name,E_ENTRANTS);
-	status = loadEntrants(name, event);
+	status = load_entrants(name, event);
 	free(name);
 	if(status<1){ return status; }
 
 	return 1;
 }
-int loadEvent(char* file_location, Event *event){
+int load_event(char* file_location, Event *event){
 	FILE *file = fopen(file_location,"r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -62,7 +62,7 @@ int loadEvent(char* file_location, Event *event){
 	fclose(file);
 	return 1;
 }
-int loadNodes(char* file_location, Event* event){
+int load_nodes(char* file_location, Event* event){
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -86,7 +86,7 @@ int loadNodes(char* file_location, Event* event){
 	fclose(file);
 	return 1;
 }
-int loadCourses(char* file_location, Event* event){
+int load_courses(char* file_location, Event* event){
 	//courses contain tracks
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
@@ -106,7 +106,7 @@ int loadCourses(char* file_location, Event* event){
 			int node_ident;
 			fscanf(file, " %d",&node_ident);
 			if(last_node>=0){
-				c->tracks[i-1] = findTrackFromEvent(event,last_node,node_ident);
+				c->tracks[i-1] = find_track_from_event(event,last_node,node_ident);
 			}
 			last_node = node_ident;
 		}
@@ -115,7 +115,7 @@ int loadCourses(char* file_location, Event* event){
 	fclose(file);
 	return 1;
 }
-int loadTrack(char* file_location, Event* event){
+int load_track(char* file_location, Event* event){
 	//tracks are the time between 2 nodes
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
@@ -132,25 +132,25 @@ int loadTrack(char* file_location, Event* event){
 	while(fscanf(file, " %d %d %d %d",&track_num,&start_node,&end_node,&max_time)!=EOF){
 		Track *t = malloc(sizeof(Track));
 		t->track_num = track_num;
-		t->start_node = findNode(event,start_node);
-		t->end_node = findNode(event,end_node);
+		t->start_node = find_node(event,start_node);
+		t->end_node = find_node(event,end_node);
 		t->max_time = max_time;
 		listadd(t, &list);
 	}
 	//now we build out 2d array to represent the node graph
-	event->nodeGraph = (Track***)calloc(event->nodes.length, sizeof(Track**));
+	event->node_graph = (Track***)calloc(event->nodes.length, sizeof(Track**));
 	for(int h=0; h<event->nodes.length; h++){
-		event->nodeGraph[h] = (Track**)calloc(event->nodes.length,sizeof(Track*));
+		event->node_graph[h] = (Track**)calloc(event->nodes.length,sizeof(Track*));
 	}
 	for(int i=0; i<event->nodes.length; i++){
 		for(int j=0; j<event->nodes.length; j++){
-			event->nodeGraph[i][j] = findTrack(i+1,j+1,&list);
+			event->node_graph[i][j] = find_track(i+1,j+1,&list);
 		}
 	}
 	fclose(file);
 	return 1;
 }
-int loadEntrants(char* file_location, Event *event){
+int load_entrants(char* file_location, Event *event){
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -160,7 +160,7 @@ int loadEntrants(char* file_location, Event *event){
 	char course;
 	Entrant *e = malloc(sizeof(Entrant));
 	while(fscanf(file, " %d %c %[^\n]",&e->competitor_num,&course,e->name)!=EOF){
-		e->course = findCourse(course, event);
+		e->course = find_course(course, event);
 		listadd(e, &event->entrants);
 		e->visited.length = 0;
 		e->time = 0;
@@ -172,7 +172,7 @@ int loadEntrants(char* file_location, Event *event){
 	fclose(file);
 	return 1;
 }
-int loadTimes(char* file_location, Event *event){
+int load_times(char* file_location, Event *event){
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -185,7 +185,7 @@ int loadTimes(char* file_location, Event *event){
 	int time_B;
 	while(fscanf(file, " %c %d %d %d:%d",&type,&checkpoint,&competitor,&time_A,&time_B)!=EOF){
 		if(type=='T'){
-			checkin(event, checkpoint, findEntrant(competitor, event), time_A, time_B);
+			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
 		}
 	}
 	fclose(file);

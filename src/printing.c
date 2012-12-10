@@ -8,7 +8,7 @@
 #include "data.h"
 #include <stdlib.h>
 #include <stdio.h>
-void printNode(Node *n){
+void print_node(Node *n){
 	char *t;
 	switch(n->type){
 	case CP:
@@ -23,25 +23,7 @@ void printNode(Node *n){
 	}
 	printf("Node identifier: %d Type: %s\n", n->identifier, t);
 }
-void printTracks(Event *event){
-	printf("%6s","");
-	for(int j=0; j<event->nodes.length; j++){
-		printf("%6d",j+1);
-	}
-	printf("\n");
-	for(int i=0; i<event->nodes.length; i++){
-		printf("%6d",i+1);
-		for(int h=0; h<event->nodes.length; h++){
-			int max = 0;
-			if(event->nodeGraph[i][h]!=NULL){
-				max = event->nodeGraph[i][h]->max_time;
-			}
-			printf("%5d%1s",max,"m");
-		}
-		printf("\n");
-	}
-}
-void printCourses(Event *event){
+void print_courses(Event *event){
 	printf("Printing %d courses\n",event->courses.length);
 	ListNode *current = event->courses.head;
 	do{
@@ -54,66 +36,65 @@ void printCourses(Event *event){
 		current = current->next;
 	}while(current!=NULL);
 }
-void printEntrants(Event *event){
+void print_entrants(Event *event){
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;
-		printf("Competitor number %d, %s on course %c\n", currentData->competitor_num, currentData->name, currentData->course->identifier);
-		if(currentData->visited.length>0){
-			int h = currentData->time/60;
-			int m = currentData->time%60;
-			printf("And they last hit a checkpoint at %d:%d and have visited these checkpoints: ",h,m);
-			ListNode *c = currentData->visited.head;
-			do{
-				Node *n = c->data;
-				printf("%d, ", n->identifier);
-				c = c->next;
-			}while(c!=NULL);
-			printf("\n\n");
-		}
+		print_status(currentData);
 		current = current->next;
 	}while(current!=NULL);
 }
-void printStatus(Entrant *entrant){
+void print_status(Entrant *entrant){
 	int h = entrant->time/60;
 	int m = entrant->time%60;
-	Node *last = entrant->visited.tail->data;
-	printf("Entrant %s last checked in at %d:%d at checkpoint %d", entrant->name, h, m, last->identifier);
-	switch(has_finished(entrant)){
-	case -1:
-		printf(" and has not started\n");
-		break;
-	case 0:
-		printf(" and is on course\n");
-		break;
-	case 1:
-		printf(" and has finished\n");
-		break;
+	printf("Entrant %s ",entrant->name);
+	if(entrant->visited.length==0){
+		printf(" has not checked in\n");
+	}else{
+		Node *last = entrant->visited.tail->data;
+		printf("last checked in at %d:%d at checkpoint %d", h, m, last->identifier);
+		switch(has_finished(entrant)){
+		case -1:
+			printf(" and has not started\n");
+			break;
+		case 0:
+			printf(" and is on course\n");
+			break;
+		case 1:
+			printf(" and has finished\n");
+			break;
+		}
 	}
 }
-void printNotStarted(Event *event){
+void print_not_started(Event *event){
+	int num = 0;
 	ListNode *current = event->entrants.head;
 	printf("Entrants who have not started are: \n");
 	do{
 		Entrant *currentData = current->data;
 		if(has_finished(currentData)==-1){
 			printf("%s\n", currentData->name);
+			num++;
 		}
 		current = current->next;
 	}while(current!=NULL);
+	printf("%d entrants have not started\n",num);
 }
-void printStarted(Event *event){
+void print_started(Event *event){
+	int num = 0;
 	ListNode *current = event->entrants.head;
 	printf("Entrants who are on the course are: \n");
 	do{
 		Entrant *currentData = current->data;
 		if(has_finished(currentData)==0){
 			printf("%s\n", currentData->name);
+			num++;
 		}
 		current = current->next;
 	}while(current!=NULL);
+	printf("%d entrants have started\n", num);
 }
-void printFinished(Event *event){
+void print_finished(Event *event){
 	int num_fin = 0;
 	ListNode *current = event->entrants.head;
 	printf("Entrants who have finished are: \n");
