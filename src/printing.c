@@ -94,7 +94,7 @@ void print_started(Event *event){
 		}
 		current = current->next;
 	}while(current!=NULL);
-	printf("%d entrants have started\n", num);
+	printf("%d entrants are on course\n", num);
 }
 void print_finished(Event *event){
 	int num_fin = 0;

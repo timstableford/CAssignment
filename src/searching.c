@@ -103,12 +103,8 @@ Track *current_track(Event *event, Entrant *entrant){
 		}
 		for(;i<entrant->course->num_tracks; i++){
 			Track *current = entrant->course->tracks[i];
-			Track *next = NULL;
 			if((i+1)<entrant->course->num_tracks){
-				next = entrant->course->tracks[i+1];
-			}
-			if(next==NULL){
-				return current;
+				return NULL;
 			}
 			time += current->max_time;
 			if(time>time_since_last_checkin){
