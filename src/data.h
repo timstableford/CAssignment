@@ -55,6 +55,7 @@ typedef struct{
 	char name[50];
 	char date[50];
 	char time[50];
+	int current_time;
 	LinkedList nodes;
 	LinkedList entrants;
 	LinkedList courses;

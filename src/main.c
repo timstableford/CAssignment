@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
 				printf("Entrant not found\n");
 				break;
 			}
-			print_status(e);
+			print_status(&event, e);
 			break;
 		case 2:
 			print_not_started(&event);

@@ -40,13 +40,14 @@ void print_entrants(Event *event){
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;
-		print_status(currentData);
+		print_status(event, currentData);
 		current = current->next;
 	}while(current!=NULL);
 }
-void print_status(Entrant *entrant){
+void print_status(Event *event, Entrant *entrant){
 	int h = entrant->time/60;
 	int m = entrant->time%60;
+	Track *t;
 	printf("%s is on course %c and ",entrant->name, entrant->course->identifier);
 	if(entrant->visited.length==0){
 		printf(" has not checked in\n");
@@ -58,7 +59,8 @@ void print_status(Entrant *entrant){
 			printf(" and has not started\n");
 			break;
 		case 0:
-			printf(" and is on course\n");
+			t = current_track(event, entrant);
+			printf(" and is currently on track %d\n", t->track_num);
 			break;
 		case 1:
 			printf(" and has finished\n");

@@ -89,4 +89,34 @@ int has_finished(Entrant *entrant){
 	}
 	return 0;
 }
+Track *current_track(Event *event, Entrant *entrant){
+	int i;
+	int time_since_last_checkin = event->current_time-entrant->time;
+	int time = 0;
+	Node *last = entrant->visited.tail->data;
+	if(has_finished(entrant)==0){
+		for(i=0; i<entrant->course->num_tracks; i++){
+			Track *t = entrant->course->tracks[i];
+			if(t->start_node==last){
+				break;
+			}
+		}
+		for(;i<entrant->course->num_tracks; i++){
+			Track *current = entrant->course->tracks[i];
+			Track *next = NULL;
+			if((i+1)<entrant->course->num_tracks){
+				next = entrant->course->tracks[i+1];
+			}
+			if(next==NULL){
+				return current;
+			}
+			time += current->max_time;
+			if(time>time_since_last_checkin){
+				return current;
+			}
+		}
+
+	}
+	return NULL;
+}
 

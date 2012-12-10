@@ -13,6 +13,7 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	Node *at = find_node(event, node_ident);
 	entrant->time = time;
 	listadd(at, &entrant->visited);
+	event->current_time = time;
 }
 void listadd(void *data, LinkedList *list){
 	if(list->length==0){
