@@ -113,7 +113,7 @@ void printFinished(Event *event){
 	printf("Entrants who have finished are: \n");
 	do{
 		Entrant *currentData = current->data;
-		if((currentData->visited.length)>=(currentData->course->num_tracks+1)){
+		if((currentData->visited.length)>=checkpoints_in_course(currentData->course)){
 			printf("%s\n", currentData->name);
 			num_fin++;
 		}

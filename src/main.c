@@ -85,6 +85,12 @@ int main(int argc, char *argv[]){
 			}
 			checkin(&event, checkpoint, findEntrantByName(name, &event), h, m);
 			break;
+		case '6':
+			printf("Enter file name for event times: ");
+			times_name = calloc(80,sizeof(char));
+			scanf(" %s",times_name);
+			loadTimes(times_name, &event);
+			break;
 		}
 	}while(in!='Q');
 }
@@ -95,5 +101,6 @@ void printOptions(){
 	printf("3 - Print competitors who are on courses\n");
 	printf("4 - Print finished\n");
 	printf("5 - Enter time checkpoint\n");
+	printf("6 - Load times from file\n");
 	printf("Q - Quit\n");
 }

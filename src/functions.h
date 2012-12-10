@@ -15,6 +15,7 @@ Track *findTrackFromEvent(Event *event, int start_node, int end_node);
 Course *findCourse(char identifier, Event *event);
 Entrant *findEntrant(int competitor_num, Event *event);
 Entrant *findEntrantByName(char *name, Event *event);
+int checkpoints_in_course(Course *course);
 
 void listadd(void *data, LinkedList *list);
 void listremove(LinkedList *list, ListNode *node);

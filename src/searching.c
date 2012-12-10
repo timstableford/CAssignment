@@ -67,4 +67,17 @@ Entrant *findEntrantByName(char *name, Event *event){
 	}while(current!=NULL);
 	return NULL;
 }
+int checkpoints_in_course(Course *course){
+	int ret = 0;
+	for(int i=0; i<course->num_tracks; i++){
+		Track *t = course->tracks[i];
+		if(t->start_node->type==CP){
+			ret++;
+		}
+	}
+	if(course->tracks[course->num_tracks-1]->end_node->type==CP){
+		ret++;
+	}
+	return ret;
+}
 
