@@ -80,4 +80,13 @@ int checkpoints_in_course(Course *course){
 	}
 	return ret;
 }
+int has_finished(Entrant *entrant){
+	//1 for finished, 0 for in progress, -1 for not started
+	if((entrant->visited.length)>=checkpoints_in_course(entrant->course)){
+		return 1;
+	}else if(entrant->visited.length<=1){
+		return -1;
+	}
+	return 0;
+}
 

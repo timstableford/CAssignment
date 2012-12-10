@@ -30,8 +30,8 @@ int main(int argc, char *argv[]){
 		printf("Load failed, Terminating\n");
 		return -1;
 	}
-	printTracks(&event);
-	printCourses(&event);
+	//printTracks(&event);
+	//printCourses(&event);
 
 
 	if(times_name==NULL){
@@ -40,8 +40,7 @@ int main(int argc, char *argv[]){
 		scanf(" %s",times_name);
 	}
 	loadTimes(times_name, &event);
-	printEntrants(&event);
-	printOptions();
+	//printEntrants(&event);
 	char in = 'Q';
 	char name[50];
 	Entrant *e;

@@ -16,6 +16,7 @@ Course *findCourse(char identifier, Event *event);
 Entrant *findEntrant(int competitor_num, Event *event);
 Entrant *findEntrantByName(char *name, Event *event);
 int checkpoints_in_course(Course *course);
+int has_finished(Entrant *entrant);
 
 void listadd(void *data, LinkedList *list);
 void listremove(LinkedList *list, ListNode *node);
