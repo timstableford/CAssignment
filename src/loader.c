@@ -59,6 +59,7 @@ int loadEvent(char* file_location, Event *event){
 		return -1;
 	}
 	fscanf(file, " %[^\n] %[^\n] %[^\n]",event->name,event->date,event->time);
+	fclose(file);
 	return 1;
 }
 int loadNodes(char* file_location, Event* event){
@@ -82,6 +83,7 @@ int loadNodes(char* file_location, Event* event){
 		}
 		listadd(n, &event->nodes);
 	}
+	fclose(file);
 	return 1;
 }
 int loadCourses(char* file_location, Event* event){
@@ -110,6 +112,7 @@ int loadCourses(char* file_location, Event* event){
 		}
 		listadd(c, &event->courses);
 	}
+	fclose(file);
 	return 1;
 }
 int loadTrack(char* file_location, Event* event){
@@ -144,6 +147,7 @@ int loadTrack(char* file_location, Event* event){
 			event->nodeGraph[i][j] = findTrack(i+1,j+1,&list);
 		}
 	}
+	fclose(file);
 	return 1;
 }
 int loadEntrants(char* file_location, Event *event){
@@ -165,6 +169,7 @@ int loadEntrants(char* file_location, Event *event){
 	if(e->name==NULL){
 		free(e);
 	}
+	fclose(file);
 	return 1;
 }
 int loadTimes(char* file_location, Event *event){
@@ -183,5 +188,6 @@ int loadTimes(char* file_location, Event *event){
 			checkin(event, checkpoint, findEntrant(competitor, event), time_A, time_B);
 		}
 	}
+	fclose(file);
 	return 1;
 }
