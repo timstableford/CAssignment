@@ -5,29 +5,35 @@
 #include "functions.h"
 int main(int argc, char *argv[]){
 	Event event;
-	char *folder_name = NULL;
-	for(int i=0; i<argc; i++){
-		switch(i){
-		case 1:
-			folder_name = argv[i];
-			break;
-		default:
-			printf("Argument given %s\n",argv[i]);
-			break;
-		}
-	}
-	if(folder_name==NULL){
-		folder_name = malloc(80*sizeof(char));
-		printf("Enter folder name for event: ");
-		scanf(" %s",folder_name);
-		printf("folder name is %s\n",folder_name);
-	}
-	if(load_files(folder_name, &event)<1){
-		printf("Load failed, Terminating\n");
-		return -1;
-	}
+	int status;
+	char file_name[80];
+
+	printf("Enter main file for event: ");
+	scanf(" %s",file_name);
+	status = load_event(file_name, &event);
+	if(status<0){ return status; }
+
+	printf("Enter file containing nodes: ");
+	scanf(" %s", file_name);
+	status = load_nodes(file_name, &event);
+	if(status<0){ return status; }
+
+	printf("Enter file containing tracks: ");
+	scanf(" %s", file_name);
+	status = load_track(file_name, &event);
+	if(status<0){ return status; }
+
+	printf("Enter file containing courses: ");
+	scanf(" %s", file_name);
+	status = load_courses(file_name, &event);
+	if(status<0){ return status; }
+
+	printf("Enter file containing entrants: ");
+	scanf(" %s", file_name);
+	status = load_entrants(file_name, &event);
+	if(status<0){ return status; }
+
 	int in = 0;
-	char name[80];
 	Entrant *e;
 	do{
 		print_options();
@@ -35,8 +41,8 @@ int main(int argc, char *argv[]){
 		switch(in){
 		case 1:
 			printf("Enter entrant name: ");
-			scanf(" %[^\n]", name);
-			e = find_entrant_by_name(name,&event);
+			scanf(" %[^\n]", file_name);
+			e = find_entrant_by_name(file_name,&event);
 			if(e==NULL){
 				printf("Entrant not found\n");
 				break;
@@ -57,14 +63,14 @@ int main(int argc, char *argv[]){
 			break;
 		case 6:
 			printf("Enter competitor name: ");
-			scanf(" %[^\n]",name);
+			scanf(" %[^\n]",file_name);
 			printf("Enter time (HH:MM): ");
 			int hour; int min;
 			scanf(" %d:%d", &hour, &min);
 			printf("Enter checkpoint number: ");
 			int checkpoint;
 			scanf(" %d", &checkpoint);
-			e = find_entrant_by_name(name, &event);
+			e = find_entrant_by_name(file_name, &event);
 			if(e==NULL){
 				printf("Entrant not found\n");
 			}else{
@@ -73,8 +79,8 @@ int main(int argc, char *argv[]){
 			break;
 		case 7:
 			printf("Enter file name for event times: ");
-			scanf(" %s",name);
-			load_times(name, &event);
+			scanf(" %s",file_name);
+			load_times(file_name, &event);
 			break;
 		case 8:
 			print_courses(&event);
