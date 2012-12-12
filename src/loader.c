@@ -4,6 +4,10 @@
 #include "data.h"
 #include "functions.h"
 int load_files(char* folder_name, Event *event){
+	/*
+	 * Loads all of the default files in a folder into a specified event,
+	 * only called when a command line argument is given.
+	 */
 	printf("%s\n", folder_name);
 	int status;
 	char *name;
@@ -53,6 +57,9 @@ int load_files(char* folder_name, Event *event){
 	return 1;
 }
 int load_event(char* file_location, Event *event){
+	/*
+	 * Loads the main event file into an event instance
+	 */
 	FILE *file = fopen(file_location,"r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -66,6 +73,10 @@ int load_event(char* file_location, Event *event){
 	return 1;
 }
 int load_nodes(char* file_location, Event* event){
+	/*
+	 * Sets the node linked list length to 0, initializing it,
+	 * then loads each node into the node linked list in event
+	 */
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -90,7 +101,13 @@ int load_nodes(char* file_location, Event* event){
 	return 1;
 }
 int load_courses(char* file_location, Event* event){
-	//courses contain tracks
+	/*
+	 * Loads a course from the file and then for each node pair
+	 * it finds a track instance which fits the criteria and
+	 * adds it the the courses track array, it uses an array
+	 * as it has a set, known size. Then it adds that course
+	 * to the event instance.
+	 */
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -119,7 +136,10 @@ int load_courses(char* file_location, Event* event){
 	return 1;
 }
 int load_track(char* file_location, Event* event){
-	//tracks are the time between 2 nodes
+	/*
+	 * Loads a track from file, finds its start and end
+	 * node by searching the node graph and adds it to the event.
+	 */
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -129,7 +149,6 @@ int load_track(char* file_location, Event* event){
 	int start_node;
 	int end_node;
 	int max_time;
-	//first we'll scan them in to a linkedlist
 	LinkedList list;
 	list.length = 0;
 	while(fscanf(file, " %d %d %d %d",&track_num,&start_node,&end_node,&max_time)!=EOF){
@@ -140,7 +159,6 @@ int load_track(char* file_location, Event* event){
 		t->max_time = max_time;
 		listadd(t, &list);
 	}
-	//now we build out 2d array to represent the node graph
 	event->node_graph = (Track***)calloc(event->nodes.length, sizeof(Track**));
 	for(int h=0; h<event->nodes.length; h++){
 		event->node_graph[h] = (Track**)calloc(event->nodes.length,sizeof(Track*));
@@ -154,6 +172,10 @@ int load_track(char* file_location, Event* event){
 	return 1;
 }
 int load_entrants(char* file_location, Event *event){
+	/*
+	 * Loads an entrant to the event and associated a course
+	 * instance with it.
+	 */
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);
@@ -176,6 +198,9 @@ int load_entrants(char* file_location, Event *event){
 	return 1;
 }
 int load_times(char* file_location, Event *event){
+	/*
+	 * Loads a checkpoint file and calls checkin for each line
+	 */
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
 		printf("File %s not found\n",file_location);

@@ -9,6 +9,12 @@
 #include "functions.h"
 #include <stdio.h>
 void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
+	/*
+	 * Finds the node specified by a node ident
+	 * and adds it to the visited list of the specified entrant
+	 * also updating the time they last visited a node,
+	 * and the time the Event was last updated.
+	 */
 	int time = h*60 + m;
 	Node *at = find_node(event, node_ident);
 	entrant->current_time = time;
@@ -19,6 +25,13 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	event->current_time = time;
 }
 void listadd(void *data, LinkedList *list){
+	/*
+	 * Adds data to a linked list.
+	 * If the length is 0 then sets the new node as head,
+	 * if not sets the tails next node as the new node,
+	 * then sets the tail node as the new node.
+	 * Then finally increases the length.
+	 */
 	if(list->length==0){
 		list->head = malloc(sizeof(ListNode));
 		list->tail = list->head;
@@ -32,6 +45,11 @@ void listadd(void *data, LinkedList *list){
 	list->length = list->length + 1;
 }
 void listremove(LinkedList *list, ListNode *node){
+	/*
+	 * This method isn't actually used, but is there anyway.
+	 * Gets the nodes either side of the given node and links them,
+	 * then deletes the list node and decreses the length.
+	 */
 	ListNode *previous = node->previous;
 	ListNode *next = node->next;
 	previous->next = next;
@@ -40,12 +58,19 @@ void listremove(LinkedList *list, ListNode *node){
 	list->length = list->length - 1;
 }
 void swapelements(ListNode *first, ListNode *second){
+	/*
+	 * Swaps the data inside of the 2 elements.
+	 */
 	void *data = first->data;
 	first->data = second->data;
 	second->data = data;
 
 }
 void sortentrants(LinkedList *list){
+	/*
+	 * Does a simple bubble sort on the list,
+	 * ordering it from smallest time to largest.
+	 */
 	int num_changed = 1;
 	ListNode *current = list->head;
 	while(num_changed>0){

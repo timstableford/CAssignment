@@ -9,11 +9,17 @@
 #include <stdlib.h>
 #include <string.h>
 Track *find_track(int start_node, int end_node, LinkedList *tracks){
+	/*
+	 * Searches for a track with the specified start and
+	 * end node in the list of tracks specified.
+	 */
 	ListNode *current = tracks->head;
 	do{
 		Track *currentData = current->data;
-		if((currentData->start_node->identifier==start_node&&currentData->end_node->identifier==end_node)
-				||(currentData->start_node->identifier==end_node&&currentData->end_node->identifier==start_node)){
+		if((currentData->start_node->identifier==start_node
+				&&currentData->end_node->identifier==end_node)
+				||(currentData->start_node->identifier==end_node
+						&&currentData->end_node->identifier==start_node)){
 			return currentData;
 		}
 		current = current->next;
@@ -21,9 +27,15 @@ Track *find_track(int start_node, int end_node, LinkedList *tracks){
 	return NULL;
 }
 Track *find_track_from_event(Event *event, int start_node, int end_node){
+	/*
+	 * Returns the track in the node graph with the start and end node
+	 */
 	return event->node_graph[start_node-1][end_node-1];
 }
 Node *find_node(Event *event, int ident){
+	/*
+	 * Finds a node by identifier in in the event
+	 */
 	ListNode *current = event->nodes.head;
 	do{
 		Node *currentData = current->data;
@@ -35,6 +47,9 @@ Node *find_node(Event *event, int ident){
 	return NULL;
 }
 Course *find_course(char identifier, Event *event){
+	/*
+	 * Finds a course in an event
+	 */
 	ListNode *current = event->courses.head;
 	do{
 		Course *currentData = current->data;
@@ -46,6 +61,9 @@ Course *find_course(char identifier, Event *event){
 	return NULL;
 }
 Entrant *find_entrant(int competitor_num, Event *event){
+	/*
+	 * Finds an entrant by competitor number in an event
+	 */
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;
@@ -57,6 +75,9 @@ Entrant *find_entrant(int competitor_num, Event *event){
 	return NULL;
 }
 Entrant *find_entrant_by_name(char *name, Event *event){
+	/*
+	 * Finds an entrant by name in an event
+	 */
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;
@@ -68,6 +89,9 @@ Entrant *find_entrant_by_name(char *name, Event *event){
 	return NULL;
 }
 int checkpoints_in_course(Course *course){
+	/*
+	 * Returns the number of time checkpoints in a course
+	 */
 	int ret = 0;
 	for(int i=0; i<course->num_tracks; i++){
 		Track *t = course->tracks[i];
@@ -81,7 +105,10 @@ int checkpoints_in_course(Course *course){
 	return ret;
 }
 int has_finished(Entrant *entrant){
-	//1 for finished, 0 for in progress, -1 for not started
+	/*
+	 * Returns 1 if they have finished, 0 if they're on course,
+	 * and -1 if they have not started.
+	 */
 	if((entrant->visited.length)>=checkpoints_in_course(entrant->course)){
 		return 1;
 	}else if(entrant->visited.length<=1){
@@ -90,6 +117,10 @@ int has_finished(Entrant *entrant){
 	return 0;
 }
 Track *current_track(Event *event, Entrant *entrant){
+	/*
+	 * Finds the current track an entrant should be on,
+	 * assuming they're on time and went the correct direction.
+	 */
 	int i;
 	int time_since_last_checkin = event->current_time-entrant->current_time;
 	int time = 0;
@@ -115,6 +146,10 @@ Track *current_track(Event *event, Entrant *entrant){
 	return NULL;
 }
 int get_completion_time(Entrant *entrant){
+	/*
+	 * Returns the time in minutes it took the entrant
+	 * to complete the course.
+	 */
 	int start_time = entrant->start_time;
 	int time = entrant->current_time;
 	time = time - start_time;

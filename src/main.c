@@ -7,6 +7,9 @@ int main(int argc, char *argv[]){
 	Event event;
 	int status;
 	char *file_name = malloc(sizeof(char)*80);
+	/* If a folder name is given thne load thd defaults in that folder,
+	 * if not prompt for the locations of each of the inidivual files.
+	 */
 	if(argc>1){
 		file_name = argv[1];
 		load_files(file_name, &event);
@@ -38,6 +41,10 @@ int main(int argc, char *argv[]){
 	}
 	int in = 0;
 	Entrant *e;
+	/*
+	 * When everything is loaded print the menu, wait for input,
+	 * process, and the loop unless input is 0.
+	 */
 	do{
 		print_options();
 		scanf(" %d",&in);

@@ -9,6 +9,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 void print_node(Node *n){
+	/*
+	 * Prints a node in a readable format
+	 */
 	char *t;
 	switch(n->type){
 	case CP:
@@ -24,6 +27,11 @@ void print_node(Node *n){
 	printf("Node identifier: %d Type: %s\n", n->identifier, t);
 }
 void print_courses(Event *event){
+	/*
+	 * Prints all the courses in an event,
+	 * and for each prints its identifier, number of tracks,
+	 * and it's time.
+	 */
 	printf("Printing %d courses\n",event->courses.length);
 	ListNode *current = event->courses.head;
 	do{
@@ -32,11 +40,15 @@ void print_courses(Event *event){
 		for(int track=0; track<currentData->num_tracks; track++){
 			time = time + currentData->tracks[track]->max_time;
 		}
-		printf("Course %c has %d tracks and takes %d minutes\n", currentData->identifier, currentData->num_tracks, time);
+		printf("Course %c has %d tracks and takes %d minutes\n",
+				currentData->identifier, currentData->num_tracks, time);
 		current = current->next;
 	}while(current!=NULL);
 }
 void print_entrants(Event *event){
+	/*
+	 * Calls print_status for each entrant in the event
+	 */
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;
@@ -45,6 +57,11 @@ void print_entrants(Event *event){
 	}while(current!=NULL);
 }
 void print_status(Event *event, Entrant *entrant){
+	/*
+	 * Prints their name, course identifier,
+	 * and then where they are: not started,
+	 * on course, finished.
+	 */
 	int h = entrant->current_time/60;
 	int m = entrant->current_time%60;
 	Track *t;
@@ -69,6 +86,10 @@ void print_status(Event *event, Entrant *entrant){
 	}
 }
 void print_not_started(Event *event){
+	/*
+	 * Prints the name of each of the entrants who have not started,
+	 * and then prints the number of names listed.
+	 */
 	int num = 0;
 	ListNode *current = event->entrants.head;
 	printf("Entrants who have not started are: \n");
@@ -83,6 +104,10 @@ void print_not_started(Event *event){
 	printf("%d entrants have not started\n",num);
 }
 void print_started(Event *event){
+	/*
+	 * Prints the name of each of the entrants on course,
+	 * and then prints the number of names listed.
+	 */
 	int num = 0;
 	ListNode *current = event->entrants.head;
 	printf("Entrants who are on the course are: \n");
@@ -97,6 +122,10 @@ void print_started(Event *event){
 	printf("%d entrants are on course\n", num);
 }
 void print_finished(Event *event){
+	/*
+	 * Prints the name of each of the entrants who have finished,
+	 * and then prints the number of names listed.
+	 */
 	int num_fin = 0;
 	ListNode *current = event->entrants.head;
 	printf("Entrants who have finished are: \n");
@@ -111,6 +140,11 @@ void print_finished(Event *event){
 	printf("%d have finished\n",num_fin);
 }
 void print_results(Event *event){
+	/*
+	 * Orders the list of entrants who have finished,
+	 * then prints each in order of time taken,
+	 * smallest to largest, in a readable format.
+	 */
 	LinkedList finished;
 	finished.length = 0;
 	ListNode *current = event->entrants.head;
