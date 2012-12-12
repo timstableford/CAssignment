@@ -45,8 +45,8 @@ void print_entrants(Event *event){
 	}while(current!=NULL);
 }
 void print_status(Event *event, Entrant *entrant){
-	int h = entrant->time/60;
-	int m = entrant->time%60;
+	int h = entrant->current_time/60;
+	int m = entrant->current_time%60;
 	Track *t;
 	printf("%s is on course %c and ",entrant->name, entrant->course->identifier);
 	if(entrant->visited.length==0){
@@ -127,10 +127,10 @@ void print_results(Event *event){
 	do{
 		printf("%s started at %dh %dm and finished at %dh %dm and took %dh %dm minutes\n",ce->name,
 				ce->start_time/60, ce->start_time%60,
-				ce->time/60, ce->time%60,
+				ce->current_time/60, ce->current_time%60,
 				get_completion_time(ce)/60,get_completion_time(ce)%60);
 		cf = cf->next;
 		ce = cf->data;
-	}while(cf!=NULL&&ce!=NULL&&ce->time!=0);
+	}while(cf!=NULL&&ce!=NULL&&ce->current_time!=0);
 }
 

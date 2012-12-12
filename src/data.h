@@ -22,7 +22,6 @@ typedef struct{
 	ListNode *head;
 	ListNode *tail;
 	int length;
-	int iterator;
 }LinkedList;
 
 typedef struct{
@@ -49,13 +48,12 @@ typedef struct{
 	Course *course;
 	LinkedList visited;
 	int start_time;
-	int time;
+	int current_time;
 }Entrant;
 
 typedef struct{
 	char name[50];
 	char date[50];
-	char time[50];
 	int current_time;
 	LinkedList nodes;
 	LinkedList entrants;

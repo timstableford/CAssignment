@@ -58,8 +58,11 @@ int load_event(char* file_location, Event *event){
 		printf("File %s not found\n",file_location);
 		return -1;
 	}
-	fscanf(file, " %[^\n] %[^\n] %[^\n]",event->name,event->date,event->time);
+	int h;
+	int m;
+	fscanf(file, " %[^\n] %[^\n] %d:%d",event->name,event->date,&h,&m);
 	fclose(file);
+	event->current_time = h*60+m;
 	return 1;
 }
 int load_nodes(char* file_location, Event* event){
@@ -163,7 +166,7 @@ int load_entrants(char* file_location, Event *event){
 		e->course = find_course(course, event);
 		listadd(e, &event->entrants);
 		e->visited.length = 0;
-		e->time = 0;
+		e->current_time = 0;
 		e = malloc(sizeof(Entrant));
 	}
 	if(e->name==NULL){

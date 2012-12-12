@@ -11,7 +11,7 @@
 void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	int time = h*60 + m;
 	Node *at = find_node(event, node_ident);
-	entrant->time = time;
+	entrant->current_time = time;
 	if(entrant->visited.length==0){
 		entrant->start_time = time;
 	}

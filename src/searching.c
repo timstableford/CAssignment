@@ -91,7 +91,7 @@ int has_finished(Entrant *entrant){
 }
 Track *current_track(Event *event, Entrant *entrant){
 	int i;
-	int time_since_last_checkin = event->current_time-entrant->time;
+	int time_since_last_checkin = event->current_time-entrant->current_time;
 	int time = 0;
 	Node *last = entrant->visited.tail->data;
 	if(has_finished(entrant)==0){
@@ -116,7 +116,7 @@ Track *current_track(Event *event, Entrant *entrant){
 }
 int get_completion_time(Entrant *entrant){
 	int start_time = entrant->start_time;
-	int time = entrant->time;
+	int time = entrant->current_time;
 	time = time - start_time;
 	return time;
 }
