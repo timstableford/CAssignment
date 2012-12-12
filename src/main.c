@@ -6,33 +6,36 @@
 int main(int argc, char *argv[]){
 	Event event;
 	int status;
-	char file_name[80];
+	char *file_name = malloc(sizeof(char)*80);
+	if(argc>1){
+		file_name = argv[1];
+		load_files(file_name, &event);
+	}else{
+		printf("Enter main file for event: ");
+		scanf(" %s",file_name);
+		status = load_event(file_name, &event);
+		if(status<0){ return status; }
 
-	printf("Enter main file for event: ");
-	scanf(" %s",file_name);
-	status = load_event(file_name, &event);
-	if(status<0){ return status; }
+		printf("Enter file containing nodes: ");
+		scanf(" %s", file_name);
+		status = load_nodes(file_name, &event);
+		if(status<0){ return status; }
 
-	printf("Enter file containing nodes: ");
-	scanf(" %s", file_name);
-	status = load_nodes(file_name, &event);
-	if(status<0){ return status; }
+		printf("Enter file containing tracks: ");
+		scanf(" %s", file_name);
+		status = load_track(file_name, &event);
+		if(status<0){ return status; }
 
-	printf("Enter file containing tracks: ");
-	scanf(" %s", file_name);
-	status = load_track(file_name, &event);
-	if(status<0){ return status; }
+		printf("Enter file containing courses: ");
+		scanf(" %s", file_name);
+		status = load_courses(file_name, &event);
+		if(status<0){ return status; }
 
-	printf("Enter file containing courses: ");
-	scanf(" %s", file_name);
-	status = load_courses(file_name, &event);
-	if(status<0){ return status; }
-
-	printf("Enter file containing entrants: ");
-	scanf(" %s", file_name);
-	status = load_entrants(file_name, &event);
-	if(status<0){ return status; }
-
+		printf("Enter file containing entrants: ");
+		scanf(" %s", file_name);
+		status = load_entrants(file_name, &event);
+		if(status<0){ return status; }
+	}
 	int in = 0;
 	Entrant *e;
 	do{
@@ -85,6 +88,9 @@ int main(int argc, char *argv[]){
 		case 8:
 			print_courses(&event);
 			break;
+		case 9:
+			print_results(&event);
+			break;
 		}
 	}while(in!=0);
 }
@@ -98,5 +104,6 @@ void print_options(){
 	printf("6 - Enter time checkpoint\n");
 	printf("7 - Load times from file\n");
 	printf("8 - Print Courses\n");
+	printf("9 - Print results list\n");
 	printf("0 - Quit\n");
 }

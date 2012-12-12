@@ -12,6 +12,9 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	int time = h*60 + m;
 	Node *at = find_node(event, node_ident);
 	entrant->time = time;
+	if(entrant->visited.length==0){
+		entrant->start_time = time;
+	}
 	listadd(at, &entrant->visited);
 	event->current_time = time;
 }
@@ -35,6 +38,29 @@ void listremove(LinkedList *list, ListNode *node){
 	next->previous = previous;
 	free(node);
 	list->length = list->length - 1;
+}
+void swapelements(ListNode *first, ListNode *second){
+	void *data = first->data;
+	first->data = second->data;
+	second->data = data;
+
+}
+void sortentrants(LinkedList *list){
+	int num_changed = 1;
+	ListNode *current = list->head;
+	while(num_changed>0){
+		current = list->head;
+		num_changed = 0;
+		for(int i=0; i<list->length-1; i++){
+			Entrant *c = current->data;
+			Entrant *n = current->next->data;
+			if(get_completion_time(c)>get_completion_time(n)){
+				swapelements(current,current->next);
+				num_changed++;
+			}
+			current = current->next;
+		}
+	}
 }
 
 

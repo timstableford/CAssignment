@@ -48,6 +48,7 @@ typedef struct{
 	char name[50];
 	Course *course;
 	LinkedList visited;
+	int start_time;
 	int time;
 }Entrant;
 

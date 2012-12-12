@@ -111,8 +111,13 @@ Track *current_track(Event *event, Entrant *entrant){
 				return current;
 			}
 		}
-
 	}
 	return NULL;
+}
+int get_completion_time(Entrant *entrant){
+	int start_time = entrant->start_time;
+	int time = entrant->time;
+	time = time - start_time;
+	return time;
 }
 

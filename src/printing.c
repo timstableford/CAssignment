@@ -53,7 +53,7 @@ void print_status(Event *event, Entrant *entrant){
 		printf(" has not checked in\n");
 	}else{
 		Node *last = entrant->visited.tail->data;
-		printf("last checked in at %d:%d at checkpoint %d", h, m, last->identifier);
+		printf("last checked in at %dh %dm at checkpoint %d", h, m, last->identifier);
 		switch(has_finished(entrant)){
 		case -1:
 			printf(" and has not started\n");
@@ -102,12 +102,35 @@ void print_finished(Event *event){
 	printf("Entrants who have finished are: \n");
 	do{
 		Entrant *currentData = current->data;
-		if(has_finished(currentData)){
+		if(has_finished(currentData)==1){
 			printf("%s\n", currentData->name);
 			num_fin++;
 		}
 		current = current->next;
 	}while(current!=NULL);
 	printf("%d have finished\n",num_fin);
+}
+void print_results(Event *event){
+	LinkedList finished;
+	finished.length = 0;
+	ListNode *current = event->entrants.head;
+	do{
+		Entrant *currentData = current->data;
+		if(has_finished(currentData)==1){
+			listadd(currentData, &finished);
+		}
+		current = current->next;
+	}while(current!=NULL);
+	sortentrants(&finished);
+	ListNode *cf = finished.head;
+	Entrant *ce = cf->data;
+	do{
+		printf("%s started at %dh %dm and finished at %dh %dm and took %dh %dm minutes\n",ce->name,
+				ce->start_time/60, ce->start_time%60,
+				ce->time/60, ce->time%60,
+				get_completion_time(ce)/60,get_completion_time(ce)%60);
+		cf = cf->next;
+		ce = cf->data;
+	}while(cf!=NULL&&ce!=NULL&&ce->time!=0);
 }
 
