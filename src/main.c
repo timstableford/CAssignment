@@ -98,6 +98,9 @@ int main(int argc, char *argv[]){
 		case 9:
 			print_results(&event);
 			break;
+		case 10:
+			print_nodes(&event);
+			break;
 		}
 	}while(in!=0);
 }
@@ -112,5 +115,6 @@ void print_options(){
 	printf("7 - Load times from file\n");
 	printf("8 - Print Courses\n");
 	printf("9 - Print results list\n");
+	printf("10 - Print nodes\n");
 	printf("0 - Quit\n");
 }

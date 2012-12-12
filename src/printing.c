@@ -77,7 +77,17 @@ void print_status(Event *event, Entrant *entrant){
 			break;
 		case 0:
 			t = current_track(event, entrant);
-			printf(" and is currently on track %d\n", t->track_num);
+			switch(entrant->excluded){
+			case NONE:
+				printf(" and is currently on track %d\n", t->track_num);
+				break;
+			case OFFCOURSE:
+				printf(" and is off course\n");
+				break;
+			case MEDICAL:
+				printf(" and is excluded for medical reasons\n");
+				break;
+			}
 			break;
 		case 1:
 			printf(" and has finished\n");
@@ -166,5 +176,13 @@ void print_results(Event *event){
 		cf = cf->next;
 		ce = cf->data;
 	}while(cf!=NULL&&ce!=NULL&&ce->current_time!=0);
+}
+void print_nodes(Event *event){
+	ListNode *current = event->nodes.head;
+	do{
+		Node *n = current->data;
+		print_node(n);
+		current = current->next;
+	}while(current!=NULL);
 }
 

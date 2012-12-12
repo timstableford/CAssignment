@@ -19,6 +19,7 @@ int checkpoints_in_course(Course *course);
 int has_finished(Entrant *entrant);
 Track *current_track(Event *event, Entrant *entrant);
 int get_completion_time(Entrant *entrant);
+int is_on_course(Entrant *e);
 
 void listadd(void *data, LinkedList *list);
 void listremove(LinkedList *list, ListNode *node);
@@ -28,6 +29,7 @@ void swapelements(ListNode *first, ListNode *second);
 void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m);
 
 void print_node(Node *n);
+void print_nodes(Event *event);
 void print_courses(Event *event);
 void print_entrants(Event *event);
 void print_status(Event *event, Entrant *entrant);

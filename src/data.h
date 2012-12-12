@@ -12,6 +12,10 @@
 #define JN 2
 typedef int NodeType;
 
+#define NONE 0
+#define MEDICAL 1
+#define OFFCOURSE 2
+
 typedef struct ListNode{
 	void *data;
 	struct ListNode *next;
@@ -49,6 +53,7 @@ typedef struct{
 	LinkedList visited;
 	int start_time;
 	int current_time;
+	int excluded;
 }Entrant;
 
 typedef struct{

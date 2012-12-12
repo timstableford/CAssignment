@@ -23,6 +23,7 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	}
 	listadd(at, &entrant->visited);
 	event->current_time = time;
+	is_on_course(entrant);
 }
 void listadd(void *data, LinkedList *list){
 	/*
@@ -86,6 +87,31 @@ void sortentrants(LinkedList *list){
 			current = current->next;
 		}
 	}
+}
+int is_on_course(Entrant *entrant){
+	LinkedList nodes_on_track;
+	nodes_on_track.length = 0;
+	Node *n;
+	for(int i=0; i<entrant->course->num_tracks; i++){
+		n = entrant->course->tracks[i]->start_node;
+		listadd(n, &nodes_on_track);
+	}
+	n = entrant->course->tracks[entrant->course->num_tracks-1]->end_node;
+	listadd(n, &nodes_on_track);
+	ListNode *currentVisited = entrant->visited.head;
+	ListNode *currentNode = nodes_on_track.head;
+	while(currentVisited!=NULL){
+		Node *cVD = currentVisited->data;
+		Node *cND = currentNode->data;
+		if(cVD->identifier!=cND->identifier){
+			entrant->excluded = OFFCOURSE;
+			return 0;
+		}
+		currentNode = currentNode->next;
+		currentVisited = currentVisited->next;
+	}
+
+	return 1;
 }
 
 

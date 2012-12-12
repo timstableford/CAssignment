@@ -189,6 +189,7 @@ int load_entrants(char* file_location, Event *event){
 		listadd(e, &event->entrants);
 		e->visited.length = 0;
 		e->current_time = 0;
+		e->excluded = 0;
 		e = malloc(sizeof(Entrant));
 	}
 	if(e->name==NULL){
@@ -212,8 +213,16 @@ int load_times(char* file_location, Event *event){
 	int time_A;
 	int time_B;
 	while(fscanf(file, " %c %d %d %d:%d",&type,&checkpoint,&competitor,&time_A,&time_B)!=EOF){
-		if(type=='T'){
+		switch(type){
+		case 'T':
 			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
+			break;
+		case 'A':
+
+			break;
+		case 'I':
+
+			break;
 		}
 	}
 	fclose(file);
