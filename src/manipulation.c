@@ -89,28 +89,31 @@ void sortentrants(LinkedList *list){
 	}
 }
 int is_on_course(Entrant *entrant){
-	LinkedList nodes_on_track;
-	nodes_on_track.length = 0;
-	Node *n;
+	LinkedList cps;
+	cps.length = 0;
 	for(int i=0; i<entrant->course->num_tracks; i++){
-		n = entrant->course->tracks[i]->start_node;
-		listadd(n, &nodes_on_track);
+		Node *cp = entrant->course->tracks[i]->start_node;
+		if(cp->type==CP){
+			listadd(cp, &cps);
+		}
 	}
-	n = entrant->course->tracks[entrant->course->num_tracks-1]->end_node;
-	listadd(n, &nodes_on_track);
-	ListNode *currentVisited = entrant->visited.head;
-	ListNode *currentNode = nodes_on_track.head;
-	while(currentVisited!=NULL){
-		Node *cVD = currentVisited->data;
-		Node *cND = currentNode->data;
-		if(cVD->identifier!=cND->identifier){
+	if(entrant->course->tracks[entrant->course->num_tracks-1]->start_node->type==CP){
+		listadd(entrant->course->tracks[entrant->course->num_tracks-1]->start_node,&cps);
+	}
+
+
+	ListNode *current = cps.head;
+	ListNode *visited = entrant->visited.head;
+	while(visited!=NULL){
+		Node *cD = current->data;
+		Node *cVD = visited->data;
+		if(cD->identifier!=cVD->identifier){
 			entrant->excluded = OFFCOURSE;
 			return 0;
 		}
-		currentNode = currentNode->next;
-		currentVisited = currentVisited->next;
+		current = current->next;
+		visited = visited->next;
 	}
-
 	return 1;
 }
 

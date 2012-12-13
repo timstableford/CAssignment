@@ -189,7 +189,7 @@ int load_entrants(char* file_location, Event *event){
 		listadd(e, &event->entrants);
 		e->visited.length = 0;
 		e->current_time = 0;
-		e->excluded = 0;
+		e->excluded = NONE;
 		e = malloc(sizeof(Entrant));
 	}
 	if(e->name==NULL){
