@@ -218,10 +218,19 @@ int load_times(char* file_location, Event *event){
 			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
 			break;
 		case 'A':
-
+			//arrive at medical
+			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
+			break;
+		case 'D':
+			//depart from medical
+			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
 			break;
 		case 'I':
-
+			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
+			Entrant *e = find_entrant(competitor, event);
+			if(e!=NULL){
+				e->excluded = LATE;
+			}
 			break;
 		}
 	}

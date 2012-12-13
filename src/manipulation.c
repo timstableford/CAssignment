@@ -17,11 +17,11 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	 */
 	int time = h*60 + m;
 	Node *at = find_node(event, node_ident);
-	entrant->current_time = time;
 	if(entrant->visited.length==0){
 		entrant->start_time = time;
 	}
 	listadd(at, &entrant->visited);
+	entrant->current_time = time;
 	event->current_time = time;
 	is_on_course(entrant);
 }
@@ -97,8 +97,8 @@ int is_on_course(Entrant *entrant){
 			listadd(cp, &cps);
 		}
 	}
-	if(entrant->course->tracks[entrant->course->num_tracks-1]->start_node->type==CP){
-		listadd(entrant->course->tracks[entrant->course->num_tracks-1]->start_node,&cps);
+	if(entrant->course->tracks[entrant->course->num_tracks-1]->end_node->type==CP){
+		listadd(entrant->course->tracks[entrant->course->num_tracks-1]->end_node,&cps);
 	}
 
 

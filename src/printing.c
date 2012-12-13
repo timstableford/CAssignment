@@ -80,12 +80,7 @@ void print_status(Event *event, Entrant *entrant){
 			is_on_course(entrant);
 			switch(entrant->excluded){
 			case NONE:
-				if(entrant->visited.length==1){
-					Node *n = entrant->visited.head->data;
-					printf(" and is currently at checkpoint %d\n", n->identifier);
-				}else{
-					printf(" and is currently on track %d\n", t->track_num);
-				}
+				printf(" and is currently on track %d\n", t->track_num);
 				break;
 			case OFFCOURSE:
 				printf(" and is off course\n");
