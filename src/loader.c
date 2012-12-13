@@ -189,6 +189,7 @@ int load_entrants(char* file_location, Event *event){
 		listadd(e, &event->entrants);
 		e->visited.length = 0;
 		e->current_time = 0;
+		e->medical = 0;
 		e->excluded = NONE;
 		e = malloc(sizeof(Entrant));
 	}
@@ -214,23 +215,17 @@ int load_times(char* file_location, Event *event){
 	int time_B;
 	while(fscanf(file, " %c %d %d %d:%d",&type,&checkpoint,&competitor,&time_A,&time_B)!=EOF){
 		switch(type){
+		case 'I':
+			if(find_entrant(competitor, event)!=NULL){
+				find_entrant(competitor, event)->excluded = LATE;
+			}
 		case 'T':
 			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
 			break;
 		case 'A':
-			//arrive at medical
-			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
-			break;
 		case 'D':
 			//depart from medical
-			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
-			break;
-		case 'I':
-			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
-			Entrant *e = find_entrant(competitor, event);
-			if(e!=NULL){
-				e->excluded = LATE;
-			}
+			medical(event, checkpoint, find_entrant(competitor, event), time_A, time_B);
 			break;
 		}
 	}

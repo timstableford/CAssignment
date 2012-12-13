@@ -27,6 +27,7 @@ void sortentrants(LinkedList *list);
 void swapelements(ListNode *first, ListNode *second);
 
 void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m);
+void medical(Event *event, int node_ident, Entrant *entrant, int h, int m);
 
 void print_node(Node *n);
 void print_nodes(Event *event);
@@ -38,4 +39,5 @@ void print_started(Event *event);
 void print_finished(Event *event);
 void print_options();
 void print_results(Event *event);
+void print_excluded(Event *event);
 #endif

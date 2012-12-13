@@ -175,7 +175,9 @@ void print_results(Event *event){
 				ce->current_time/60, ce->current_time%60,
 				get_completion_time(ce)/60,get_completion_time(ce)%60);
 		cf = cf->next;
-		ce = cf->data;
+		if(cf!=NULL){
+			ce = cf->data;
+		}
 	}while(cf!=NULL&&ce!=NULL&&ce->current_time!=0);
 }
 void print_nodes(Event *event){
@@ -185,5 +187,29 @@ void print_nodes(Event *event){
 		print_node(n);
 		current = current->next;
 	}while(current!=NULL);
+}
+void print_excluded(Event *event){
+	int num_excluded = 0;
+	ListNode *current = event->entrants.head;
+	do{
+		Entrant *currentData = current->data;
+		if(currentData->excluded!=NONE){
+			printf("%s excluded for", currentData->name);
+			num_excluded++;
+			switch(currentData->excluded){
+			case MEDICAL:
+				printf(" medical reasons\n");
+				break;
+			case OFFCOURSE:
+				printf(" being off course\n");
+				break;
+			case LATE:
+				printf(" for being late at a checkpoint\n");
+				break;
+			}
+		}
+		current = current->next;
+	}while(current!=NULL);
+	printf("%d excluded\n", num_excluded);
 }
 

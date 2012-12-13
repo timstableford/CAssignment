@@ -55,6 +55,7 @@ typedef struct{
 	int start_time;
 	int current_time;
 	int excluded;
+	int medical;
 }Entrant;
 
 typedef struct{

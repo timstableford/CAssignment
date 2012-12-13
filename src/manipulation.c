@@ -22,8 +22,19 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	}
 	listadd(at, &entrant->visited);
 	entrant->current_time = time;
-	event->current_time = time;
 	is_on_course(entrant);
+	event->current_time = time;
+}
+void medical(Event *event, int node_ident, Entrant *entrant, int h, int m){
+	int t = 60*h + m;
+	Node *tail = entrant->visited.tail->data;
+	if(entrant->visited.tail->previous!=NULL){
+		Node *last = entrant->visited.tail->previous->data;
+		if(last->type==MC&&tail->type==MC){
+			entrant->medical = entrant->medical - (t-entrant->current_time);
+		}
+	}
+	checkin(event, node_ident, entrant, h, m);
 }
 void listadd(void *data, LinkedList *list){
 	/*
@@ -89,19 +100,21 @@ void sortentrants(LinkedList *list){
 	}
 }
 int is_on_course(Entrant *entrant){
+	if(has_finished(entrant)){
+		return 1;
+	}
 	LinkedList cps;
 	cps.length = 0;
 	for(int i=0; i<entrant->course->num_tracks; i++){
 		Node *cp = entrant->course->tracks[i]->start_node;
-		if(cp->type==CP){
+		if(cp->type==CP||cp->type==MC){
 			listadd(cp, &cps);
 		}
 	}
-	if(entrant->course->tracks[entrant->course->num_tracks-1]->end_node->type==CP){
-		listadd(entrant->course->tracks[entrant->course->num_tracks-1]->end_node,&cps);
+	Node *final = entrant->course->tracks[entrant->course->num_tracks-1]->end_node;
+	if(final->type==CP||final->type==MC){
+		listadd(final,&cps);
 	}
-
-
 	ListNode *current = cps.head;
 	ListNode *visited = entrant->visited.head;
 	while(visited!=NULL){

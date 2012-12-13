@@ -153,7 +153,8 @@ int get_completion_time(Entrant *entrant){
 	 */
 	int start_time = entrant->start_time;
 	int time = entrant->current_time;
-	time = time - start_time;
+	int medical = entrant->medical;
+	time = time - start_time - medical;
 	return time;
 }
 
