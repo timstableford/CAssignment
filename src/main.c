@@ -91,19 +91,8 @@ int main(int argc, char *argv[]){
 				if(cp==NULL){
 					printf("Checkpoint not found\n");
 				}else{
-					switch(cp->type){
-					case CP:
-						checkin(&event, checkpoint, e, hour, min);
-						break;
-					case MC:
-						medical(&event, checkpoint, e, hour, min);
-						break;
-					default:
-						printf("Incorrect node type\n");
-						break;
-					}
+					checkin(&event, checkpoint, e, hour, min);
 				}
-
 			}
 			break;
 		case 7:

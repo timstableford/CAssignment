@@ -17,6 +17,12 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	 */
 	int time = h*60 + m;
 	Node *at = find_node(event, node_ident);
+	if(entrant->visited.tail!=NULL){
+		Node *previous = entrant->visited.tail->data;
+		if(previous->type==MC&&at->type==MC){
+			entrant->medical = entrant->medical + time - entrant->current_time;
+		}
+	}
 	if(entrant->visited.length==0){
 		entrant->start_time = time;
 	}
@@ -24,17 +30,6 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	entrant->current_time = time;
 	is_on_course(entrant);
 	event->current_time = time;
-}
-void medical(Event *event, int node_ident, Entrant *entrant, int h, int m){
-	int t = 60*h + m;
-	Node *tail = entrant->visited.tail->data;
-	if(entrant->visited.tail->previous!=NULL){
-		Node *last = entrant->visited.tail->previous->data;
-		if(last->type==MC&&tail->type==MC){
-			entrant->medical = entrant->medical - (t-entrant->current_time);
-		}
-	}
-	checkin(event, node_ident, entrant, h, m);
 }
 void listadd(void *data, LinkedList *list){
 	/*

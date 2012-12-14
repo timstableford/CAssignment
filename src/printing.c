@@ -170,10 +170,14 @@ void print_results(Event *event){
 	ListNode *cf = finished.head;
 	Entrant *ce = cf->data;
 	do{
-		printf("%s started at %dh %dm and finished at %dh %dm and took %dh %dm minutes\n",ce->name,
+		printf("%s started at %dh %dm and finished at %dh %dm and took %dh %dm minutes",ce->name,
 				ce->start_time/60, ce->start_time%60,
 				ce->current_time/60, ce->current_time%60,
 				get_completion_time(ce)/60,get_completion_time(ce)%60);
+		if(ce->medical>0){
+			 printf(" and %d minutes were removed for medical",ce->medical);
+		}
+		printf("\n");
 		cf = cf->next;
 		if(cf!=NULL){
 			ce = cf->data;
