@@ -39,5 +39,5 @@ void print_started(Event *event);
 void print_finished(Event *event);
 void print_options();
 void print_results(Event *event);
-void print_excluded(Event *event);
+void print_excluded(Event *event, int reason);
 #endif

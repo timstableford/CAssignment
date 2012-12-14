@@ -121,7 +121,10 @@ int main(int argc, char *argv[]){
 			print_nodes(&event);
 			break;
 		case 11:
-			print_excluded(&event);
+			print_excluded(&event, OFFCOURSE);
+			break;
+		case 12:
+			print_excluded(&event, MEDICAL);
 			break;
 		}
 	}while(in!=0);
@@ -138,6 +141,7 @@ void print_options(){
 	printf("8 - Print Courses\n");
 	printf("9 - Print results list\n");
 	printf("10 - Print nodes\n");
-	printf("11 - Print excluded\n");
+	printf("11 - Print excluded for off course\n");
+	printf("12 - Print excluded for medical reason\n");
 	printf("0 - Quit\n");
 }

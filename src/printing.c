@@ -188,25 +188,14 @@ void print_nodes(Event *event){
 		current = current->next;
 	}while(current!=NULL);
 }
-void print_excluded(Event *event){
+void print_excluded(Event *event, int reason){
 	int num_excluded = 0;
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;
-		if(currentData->excluded!=NONE){
-			printf("%s excluded for", currentData->name);
+		if(currentData->excluded==reason){
+			printf("%s\n", currentData->name);
 			num_excluded++;
-			switch(currentData->excluded){
-			case MEDICAL:
-				printf(" medical reasons\n");
-				break;
-			case OFFCOURSE:
-				printf(" being off course\n");
-				break;
-			case LATE:
-				printf(" for being late at a checkpoint\n");
-				break;
-			}
 		}
 		current = current->next;
 	}while(current!=NULL);

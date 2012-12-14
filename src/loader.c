@@ -217,7 +217,7 @@ int load_times(char* file_location, Event *event){
 		switch(type){
 		case 'I':
 			if(find_entrant(competitor, event)!=NULL){
-				find_entrant(competitor, event)->excluded = LATE;
+				find_entrant(competitor, event)->excluded = OFFCOURSE;
 			}
 		case 'T':
 			checkin(event, checkpoint, find_entrant(competitor, event), time_A, time_B);

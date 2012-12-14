@@ -15,7 +15,6 @@ typedef int NodeType;
 #define NONE 0
 #define MEDICAL 1
 #define OFFCOURSE 2
-#define LATE 3
 
 typedef struct ListNode{
 	void *data;
