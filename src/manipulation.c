@@ -14,6 +14,8 @@ void checkin(Event *event, int node_ident, Entrant *entrant, int h, int m){
 	 * and adds it to the visited list of the specified entrant
 	 * also updating the time they last visited a node,
 	 * and the time the Event was last updated.
+	 * And for a medical checkpoint, if the previous was medical too, adds
+	 * time to medical for these. (Assumption: They always enter before leaving)
 	 */
 	int time = h*60 + m;
 	Node *at = find_node(event, node_ident);
@@ -95,6 +97,12 @@ void sortentrants(LinkedList *list){
 	}
 }
 int is_on_course(Entrant *entrant){
+	/*
+	 * Goes through each node they have visited and checks
+	 * to make sure that it fits with each node they should
+	 * have visited, if not, excludes them and returns 0.
+	 * If they are on course returns 1.
+	 */
 	if(has_finished(entrant)){
 		return 1;
 	}

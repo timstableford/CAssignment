@@ -161,7 +161,7 @@ void print_results(Event *event){
 	ListNode *current = event->entrants.head;
 	do{
 		Entrant *currentData = current->data;
-		if(has_finished(currentData)==1){
+		if(has_finished(currentData)==1&&currentData->excluded==NONE){
 			listadd(currentData, &finished);
 		}
 		current = current->next;
@@ -185,6 +185,9 @@ void print_results(Event *event){
 	}while(cf!=NULL&&ce!=NULL&&ce->current_time!=0);
 }
 void print_nodes(Event *event){
+	/*
+	 * Calls print node for each node, useful for debugging
+	 */
 	ListNode *current = event->nodes.head;
 	do{
 		Node *n = current->data;
@@ -193,6 +196,9 @@ void print_nodes(Event *event){
 	}while(current!=NULL);
 }
 void print_excluded(Event *event, int reason){
+	/*
+	 * Prints the entrants who were excluded for said reason eg OFFCOURSE or MEDICAL
+	 */
 	int num_excluded = 0;
 	ListNode *current = event->entrants.head;
 	do{

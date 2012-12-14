@@ -201,7 +201,8 @@ int load_entrants(char* file_location, Event *event){
 }
 int load_times(char* file_location, Event *event){
 	/*
-	 * Loads a checkpoint file and calls checkin for each line
+	 * Loads a checkpoint file and calls checkin for each line, and,
+	 * additionally if it is I excludes them
 	 */
 	FILE *file = fopen(file_location, "r");
 	if(file==NULL){
