@@ -84,10 +84,26 @@ int main(int argc, char *argv[]){
 			int checkpoint;
 			scanf(" %d", &checkpoint);
 			e = find_entrant_by_name(file_name, &event);
+			Node *cp = find_node(&event, checkpoint);
 			if(e==NULL){
 				printf("Entrant not found\n");
 			}else{
-				checkin(&event, checkpoint, e, hour, min);
+				if(cp==NULL){
+					printf("Checkpoint not found\n");
+				}else{
+					switch(cp->type){
+					case CP:
+						checkin(&event, checkpoint, e, hour, min);
+						break;
+					case MC:
+						medical(&event, checkpoint, e, hour, min);
+						break;
+					default:
+						printf("Incorrect node type\n");
+						break;
+					}
+				}
+
 			}
 			break;
 		case 7:
